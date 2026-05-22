@@ -1,0 +1,6 @@
+{
+  "name": "Стоматология Caninus Таллинн",
+  "description": "Премиальная медицинская страница стоматологической клиники Caninus в Таллине под руководством д-ра Евгения Абрамовитса. Содержит контактную информацию, карту проезда и интерактивную 3D-модель.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

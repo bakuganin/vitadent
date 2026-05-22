@@ -1,0 +1,16 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Local debug and generated assets
+.chrome-*/
+*.cjs
+test_*.png
+verify-*.png
+public/frames/
+public/frames_alpha/
