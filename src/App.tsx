@@ -1,7 +1,7 @@
 import { Fragment, lazy, Suspense, useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
-import { CalendarClock, ChevronLeft, ChevronRight, Layers, Mail, MapPin, Phone, ShieldCheck, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Mail, MapPin, Phone, X } from "lucide-react";
 
 import ScrollVideoPlayer from "./components/ScrollVideoPlayer";
 import { ServiceCard } from "./types";
@@ -12,6 +12,26 @@ const RouteGuide = lazy(() => import("./components/RouteGuide"));
 type Language = "et" | "ru";
 type IntroPhase = "notice" | "loading" | "split" | "revealing" | "done";
 const LANGUAGE_STORAGE_KEY = "caninus-language";
+
+function ToothIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path
+        d="M9.6 4.7c2.3-.8 4.1.5 5.4 1.4.5.3.9.6 1 .6s.5-.3 1-.6c1.3-.9 3.1-2.2 5.4-1.4 3.1 1.1 4.7 4.8 3.7 8.9-.4 1.8-1.2 3.2-2 4.7-.8 1.5-1.7 3.1-2.2 5.3-.6 2.7-1.6 4.1-3 4.1-1.6 0-2.1-1.7-2.5-3.4-.2-.8-.5-1.7-1-2.4-.5.7-.8 1.6-1 2.4-.4 1.7-.9 3.4-2.5 3.4-1.4 0-2.4-1.4-3-4.1-.5-2.2-1.4-3.8-2.2-5.3-.8-1.5-1.6-2.9-2-4.7-1-4.1.6-7.8 3.7-8.9Z"
+        stroke="currentColor"
+        strokeWidth="1.45"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M13.4 7.2c1.2.8 2.1 1.3 2.6 1.3s1.4-.5 2.6-1.3"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
 
 function getInitialLanguage(): Language {
   if (typeof window === "undefined") return "et";
@@ -45,7 +65,7 @@ const copy = {
       cta: "Broneeri konsultatsioon",
       noteLeft: "Implantaadi jälgimine",
       noteRight: "Premium-materjalid",
-      smilePrefix: "ja",
+      smilePrefix: "Ja",
       smileStrong: "Kindla",
       smileLine: "Naeratuse",
       patients:
@@ -111,7 +131,7 @@ const copy = {
     modal: {
       close: "Sulge aken",
       title: "Sait on veel arendamisel",
-      body: "Täiendame saidi jaotisi ja lisame materjale järk-järgult. Konsultatsioonile saab juba broneerida telefoni või kontaktivormi kaudu.",
+      body: "Täiendame saiti järk-järgult. Konsultatsiooniks saate meiega ühendust võtta telefonil.",
       item1Title: "Jaotised ilmuvad peagi",
       item1Text: "Teenused ja tulemused valmistatakse praegu avaldamiseks ette.",
       item2Title: "Info on kontrollimisel",
@@ -211,7 +231,7 @@ const copy = {
     modal: {
       close: "Закрыть окно",
       title: "Сайт еще в разработке",
-      body: "Мы дорабатываем разделы сайта и постепенно добавляем материалы. Запись на консультацию уже доступна по телефону и через контактную форму.",
+      body: "Мы постепенно обновляем сайт. Для консультации вы можете связаться с нами по телефону.",
       item1Title: "Разделы появятся скоро",
       item1Text: "Услуги и результаты сейчас готовятся к публикации.",
       item2Title: "Информация проверяется",
@@ -264,6 +284,7 @@ export default function App() {
   const developmentModalActionRef = useRef<HTMLButtonElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
+  const aboutCardsRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -382,6 +403,19 @@ export default function App() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [introPhase, isDevelopmentModalOpen]);
 
+  useEffect(() => {
+    const cards = aboutCardsRef.current;
+    const activeCard = cards?.querySelector<HTMLElement>(".feature-card.is-active");
+    if (!cards || !activeCard) return;
+
+    const nextLeft = activeCard.offsetLeft - (cards.clientWidth - activeCard.clientWidth) / 2;
+
+    cards.scrollTo({
+      left: Math.max(0, nextLeft),
+      behavior: "smooth",
+    });
+  }, [aboutCardIndex, language]);
+
   const handleNextCard = () => {
     setAboutCardIndex((prev) => (prev + 1) % serviceCards.length);
   };
@@ -417,7 +451,7 @@ export default function App() {
 
       <header className="site-header">
         <button className="brand-mark" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Caninus Hambaravi">
-          <img className="brand-logo" src="/caninus-logo-wordmark.png" alt="" aria-hidden="true" />
+          <img className="brand-logo" src="/caninus-wordmark-clean.png" alt="" aria-hidden="true" />
         </button>
 
         <nav className="site-nav" aria-label={t.navLabel}>
@@ -465,8 +499,6 @@ export default function App() {
         <ScrollVideoPlayer className="hero-shared-implant" />
 
         <section className="hero-section">
-          <div className="hero-spark" aria-hidden="true">✦</div>
-
           <div className="hero-title-block">
             <p className="hero-eyebrow">{t.hero.eyebrow}</p>
             <h1 className="hero-title">
@@ -567,7 +599,7 @@ export default function App() {
             </button>
           </div>
 
-          <div className="about-cards" aria-label={t.about.cardsLabel}>
+          <div ref={aboutCardsRef} className="about-cards" aria-label={t.about.cardsLabel}>
             {serviceCards.map((card, idx) => {
               const isSelected = aboutCardIndex === idx;
 
@@ -576,6 +608,7 @@ export default function App() {
                   key={card.number}
                   onClick={() => setAboutCardIndex(idx)}
                   className={`feature-card ${isSelected ? "is-active" : ""}`}
+                  aria-pressed={isSelected}
                 >
                   <span className="feature-card-title">{card.title}</span>
                   <span className="feature-card-description">{card.description}</span>
@@ -653,8 +686,7 @@ export default function App() {
 
         <footer className="footer-section">
           <div className="footer-brand">
-            <img className="footer-logo" src="/caninus-logo.png" alt="Caninus Hambaravi" />
-            <p>{t.footer.brand}</p>
+            <img className="footer-logo" src="/caninus-wordmark-clean.png" alt="Caninus Hambaravi" />
           </div>
 
           <div className="footer-wordmark">CANINUS</div>
@@ -684,7 +716,7 @@ export default function App() {
             </button>
 
             <div className="development-modal-icon" aria-hidden="true">
-              <Layers className="w-8 h-8 stroke-[1.4]" />
+              <ToothIcon className="w-8 h-8" />
             </div>
 
             <span className="development-modal-kicker">Caninus hambakliinik</span>
@@ -693,22 +725,10 @@ export default function App() {
               {t.modal.body}
             </p>
 
-            <div className="development-modal-list">
-              <div>
-                <CalendarClock className="w-5 h-5 stroke-[1.6]" />
-                <p>
-                  <strong>{t.modal.item1Title}</strong>
-                  <span>{t.modal.item1Text}</span>
-                </p>
-              </div>
-              <div>
-                <ShieldCheck className="w-5 h-5 stroke-[1.6]" />
-                <p>
-                  <strong>{t.modal.item2Title}</strong>
-                  <span>{t.modal.item2Text}</span>
-                </p>
-              </div>
-            </div>
+            <a className="development-modal-phone" href="tel:+37256155030">
+              <Phone className="w-4 h-4 stroke-[1.8]" aria-hidden="true" />
+              <span>+372 56 155 030</span>
+            </a>
 
             <button ref={developmentModalActionRef} className="development-modal-action" onClick={closeDevelopmentModal}>
               {t.modal.action}

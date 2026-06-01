@@ -62,8 +62,8 @@ button {
 .site-shell {
   position: relative;
   --implant-shift: 0px;
-  --implant-top: clamp(150px, 16.2vh, 198px);
-  --implant-width: clamp(1125px, 76.25vw, 1475px);
+  --implant-top: clamp(205px, 20vh, 255px);
+  --implant-width: clamp(1040px, 70vw, 1380px);
   --implant-clean-mask:
     radial-gradient(ellipse 40% 28% at 50% 25%, #000 72%, rgba(0, 0, 0, 0.86) 77%, transparent 84%),
     radial-gradient(ellipse 23% 43% at 50% 66%, #000 76%, rgba(0, 0, 0, 0.84) 80%, transparent 87%);
@@ -312,7 +312,7 @@ button {
 }
 
 .site-shell.is-intro-complete .hero-cta {
-  animation: cta-slice-reveal 760ms cubic-bezier(0.22, 1, 0.36, 1) 620ms both;
+  animation: cta-rise-reveal 760ms cubic-bezier(0.22, 1, 0.36, 1) 620ms both;
 }
 
 .site-shell.is-intro-complete .hero-patient-copy,
@@ -391,23 +391,15 @@ button {
   }
 }
 
-@keyframes cta-slice-reveal {
-  0% {
+@keyframes cta-rise-reveal {
+  from {
     opacity: 0;
-    transform: translateY(14px) scaleX(0.18);
-    transform-origin: left center;
+    transform: translateY(24px);
   }
 
-  42% {
+  to {
     opacity: 1;
-    transform: translateY(8px) scaleX(0.18);
-    transform-origin: left center;
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scaleX(1);
-    transform-origin: left center;
+    transform: translateY(0);
   }
 }
 
@@ -644,12 +636,13 @@ button {
 }
 
 .site-shell.lang-et .hero-title {
-  font-size: clamp(46px, 4.92vw, 81px);
+  font-size: clamp(46px, 4.72vw, 76px);
   line-height: 0.86;
 }
 
 .site-shell.lang-et .hero-title-block {
-  width: min(78vw, 1180px);
+  left: clamp(56px, 9vw, 170px);
+  width: min(calc(100vw - clamp(84px, 12vw, 230px)), 1380px);
 }
 
 .site-shell.lang-et .hero-title-line-offset {
@@ -662,6 +655,7 @@ button {
 
 .hero-title-line {
   display: block;
+  width: max-content;
   white-space: nowrap;
 }
 
@@ -735,8 +729,8 @@ button {
 
 @media (min-width: 1200px) and (min-height: 900px) {
   .site-shell {
-    --implant-top: clamp(152px, 15vh, 205px);
-    --implant-width: clamp(1200px, 75vw, 1550px);
+    --implant-top: clamp(220px, 19vh, 270px);
+    --implant-width: clamp(1100px, 70vw, 1420px);
   }
 
   .implant-video-wrap {
@@ -804,14 +798,7 @@ button {
 }
 
 .hero-orbit {
-  position: absolute;
-  top: clamp(458px, 50vh, 610px);
-  left: calc(50% + var(--implant-shift));
-  width: min(68vw, 1080px);
-  height: min(17vw, 245px);
-  pointer-events: none;
-  overflow: visible;
-  transform: translateX(-50%);
+  display: none;
 }
 
 .hero-orbit path {
@@ -1134,6 +1121,9 @@ button {
   gap: 18px;
   overflow-x: auto;
   padding: 28px 4px 2px;
+  scroll-behavior: smooth;
+  scroll-padding-inline: max(4px, calc((100% - clamp(214px, 19vw, 292px)) / 2));
+  scroll-snap-type: x mandatory;
   scrollbar-width: none;
 }
 
@@ -1150,6 +1140,7 @@ button {
   flex: 0 0 clamp(214px, 19vw, 292px);
   min-height: clamp(270px, 28vw, 344px);
   overflow: hidden;
+  scroll-snap-align: center;
   border: 0;
   border-radius: 8px;
   background: rgba(190, 205, 218, 0.78);
@@ -1406,13 +1397,12 @@ button {
 
 .footer-brand {
   display: flex;
-  gap: 18px;
   align-items: center;
 }
 
 .footer-logo {
   display: block;
-  width: clamp(90px, 8vw, 132px);
+  width: clamp(150px, 12vw, 220px);
   height: auto;
   filter: drop-shadow(0 18px 36px rgba(32, 33, 36, 0.08));
 }
@@ -1547,6 +1537,34 @@ button {
   color: rgba(32, 33, 36, 0.58);
   font-size: 14px;
   line-height: 1.48;
+}
+
+.development-modal-phone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  margin: 0 auto 28px;
+  padding: 0 22px;
+  border: 1px solid rgba(127, 143, 156, 0.16);
+  border-radius: 999px;
+  background: rgba(235, 240, 245, 0.66);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.development-modal-phone svg {
+  flex: 0 0 auto;
+}
+
+.development-modal-phone:hover {
+  border-color: rgba(32, 33, 36, 0.26);
+  background: rgba(235, 240, 245, 0.92);
+  transform: translateY(-1px);
 }
 
 .development-modal-list {
@@ -1747,6 +1765,7 @@ button {
 
   .hero-title-line,
   .about-title span {
+    width: auto;
     white-space: normal;
   }
 
@@ -1916,17 +1935,11 @@ button {
     width: 238px;
     min-width: 238px;
     height: 44px;
-    margin-top: 166px;
+    margin-top: 28px;
     padding: 0 18px;
     font-size: 11px;
     line-height: 1;
     white-space: nowrap;
-  }
-
-  .site-shell.is-intro-complete .hero-cta {
-    animation: none;
-    opacity: 1;
-    transform: none;
   }
 
   .implant-video-wrap {
