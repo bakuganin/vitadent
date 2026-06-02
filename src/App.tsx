@@ -1,7 +1,7 @@
 import { Fragment, lazy, Suspense, useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
-import { ChevronLeft, ChevronRight, Mail, MapPin, Phone, X } from "lucide-react";
+import { Calendar, ChevronLeft, ChevronRight, Mail, MapPin, Phone } from "lucide-react";
 
 import ScrollVideoPlayer from "./components/ScrollVideoPlayer";
 import { ServiceCard } from "./types";
@@ -10,8 +10,9 @@ const BookingForm = lazy(() => import("./components/BookingForm"));
 const RouteGuide = lazy(() => import("./components/RouteGuide"));
 
 type Language = "et" | "ru";
-type IntroPhase = "notice" | "loading" | "split" | "revealing" | "done";
+type IntroPhase = "loading" | "split" | "revealing" | "done";
 const LANGUAGE_STORAGE_KEY = "caninus-language";
+const SHOW_INTRO_SECTIONS = false;
 
 function ToothIcon({ className = "" }: { className?: string }) {
   return (
@@ -127,6 +128,7 @@ const copy = {
       legal: "Reg. nr: 14044544 · Tatari 6, Tallinn, Eesti",
       privacy: "Privaatsuspoliitika",
       terms: "Teenustingimused",
+      cookie: "Cookie",
     },
     modal: {
       close: "Sulge aken",
@@ -137,6 +139,7 @@ const copy = {
       item2Title: "Info on kontrollimisel",
       item2Text: "Kogume kliinilisi andmeid hoolikalt, et näidata neid korrektselt.",
       action: "Sain aru",
+      request: "Broneeri",
     },
   },
   ru: {
@@ -227,6 +230,7 @@ const copy = {
       legal: "Рег. номер: 14044544 · Tatari 6, Tallinn, Эстония",
       privacy: "Политика конфиденциальности",
       terms: "Условия обслуживания",
+      cookie: "Cookie",
     },
     modal: {
       close: "Закрыть окно",
@@ -237,6 +241,7 @@ const copy = {
       item2Title: "Информация проверяется",
       item2Text: "Мы аккуратно собираем клинические данные, чтобы показать их корректно.",
       action: "Понятно",
+      request: "Записаться",
     },
   },
 } satisfies Record<Language, {
@@ -253,7 +258,7 @@ const copy = {
   about: Record<string, string>;
   serviceCards: ServiceCard[];
   contact: Record<string, string>;
-  footer: Record<"brand" | "legal" | "privacy" | "terms", string>;
+  footer: Record<"brand" | "legal" | "privacy" | "terms" | "cookie", string>;
   modal: Record<string, string>;
 }>;
 
@@ -278,10 +283,10 @@ export default function App() {
 
   const [language, setLanguage] = useState<Language>(getInitialLanguage);
   const [aboutCardIndex, setAboutCardIndex] = useState(1);
-  const [isDevelopmentModalOpen, setDevelopmentModalOpen] = useState(true);
   const [introProgress, setIntroProgress] = useState(0);
-  const [introPhase, setIntroPhase] = useState<IntroPhase>("notice");
-  const developmentModalActionRef = useRef<HTMLButtonElement>(null);
+  const [introPhase, setIntroPhase] = useState<IntroPhase>("loading");
+  const [showHeroNotice, setShowHeroNotice] = useState(false);
+  const [areStatsVisible, setStatsVisible] = useState(false);
   const statsRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
   const aboutCardsRef = useRef<HTMLDivElement>(null);
@@ -293,14 +298,10 @@ export default function App() {
   }, [language]);
 
   useEffect(() => {
-    const target = window.location.hash === "#about" ? aboutRef : window.location.hash === "#contact" ? contactRef : null;
-    if (!target) return;
+    if (!window.location.hash) return;
 
-    const timeout = window.setTimeout(() => {
-      target.current?.scrollIntoView({ block: "start" });
-    }, 120);
-
-    return () => window.clearTimeout(timeout);
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, []);
 
   useEffect(() => {
@@ -346,7 +347,17 @@ export default function App() {
   }, [introPhase]);
 
   useEffect(() => {
-    if (introPhase === "done" && !isDevelopmentModalOpen) return;
+    if (introPhase !== "done") {
+      setShowHeroNotice(false);
+      return;
+    }
+
+    const timeout = window.setTimeout(() => setShowHeroNotice(true), 280);
+    return () => window.clearTimeout(timeout);
+  }, [introPhase]);
+
+  useEffect(() => {
+    if (introPhase === "done") return;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -354,7 +365,24 @@ export default function App() {
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, [introPhase, isDevelopmentModalOpen]);
+  }, [introPhase]);
+
+  useEffect(() => {
+    const stats = statsRef.current;
+    if (!stats) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setStatsVisible(true);
+        observer.unobserve(entry.target);
+      },
+      { threshold: 0.2, rootMargin: "0px 0px -18% 0px" }
+    );
+
+    observer.observe(stats);
+    return () => observer.disconnect();
+  }, []);
 
   const t = copy[language];
   const serviceCards: ServiceCard[] = t.serviceCards.map((card, idx) => ({ ...card, isActive: idx === 1 }));
@@ -376,32 +404,12 @@ export default function App() {
 
   const scrollToContact = () => {
     contactRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.replaceState(null, "", "#contact");
   };
 
-  const openDevelopmentModal = () => {
-    setDevelopmentModalOpen(true);
+  const scrollToHeroNotice = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  const closeDevelopmentModal = () => {
-    setDevelopmentModalOpen(false);
-
-    if (introPhase === "notice") {
-      window.setTimeout(() => setIntroPhase("loading"), 180);
-    }
-  };
-
-  useEffect(() => {
-    if (!isDevelopmentModalOpen) return;
-
-    window.setTimeout(() => developmentModalActionRef.current?.focus(), 80);
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeDevelopmentModal();
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [introPhase, isDevelopmentModalOpen]);
 
   useEffect(() => {
     const cards = aboutCardsRef.current;
@@ -434,7 +442,7 @@ export default function App() {
 
   return (
     <div className={`site-shell ${siteIntroClass} lang-${language} min-h-screen text-[#202124] font-sans antialiased overflow-x-clip`}>
-      {introPhase !== "notice" && introPhase !== "done" && (
+      {introPhase !== "done" && (
         <div className={introLayerClass} aria-hidden="true">
           <div className="intro-loader-implant">
             <div className="intro-progress-layer">
@@ -456,15 +464,19 @@ export default function App() {
 
         <nav className="site-nav" aria-label={t.navLabel}>
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>{t.nav.home}</button>
-          <button onClick={scrollToAbout}>{t.nav.about}</button>
-          <button className="site-nav-dev" onClick={openDevelopmentModal}>
-            <span>{t.nav.services}</span>
-            <span className="nav-dev-badge">DEV</span>
-          </button>
-          <button className="site-nav-dev" onClick={openDevelopmentModal}>
-            <span>{t.nav.results}</span>
-            <span className="nav-dev-badge">DEV</span>
-          </button>
+          {SHOW_INTRO_SECTIONS && (
+            <>
+              <button onClick={scrollToAbout}>{t.nav.about}</button>
+              <button className="site-nav-dev" onClick={scrollToHeroNotice}>
+                <span>{t.nav.services}</span>
+                <span className="nav-dev-badge">DEV</span>
+              </button>
+              <button className="site-nav-dev" onClick={scrollToHeroNotice}>
+                <span>{t.nav.results}</span>
+                <span className="nav-dev-badge">DEV</span>
+              </button>
+            </>
+          )}
           <button onClick={scrollToContact}>{t.nav.contacts}</button>
         </nav>
 
@@ -550,75 +562,116 @@ export default function App() {
             </p>
           </div>
 
-          <button className="hero-down-button" onClick={scrollToStats} aria-label={t.hero.downLabel}>
-            ↓
-          </button>
+          {SHOW_INTRO_SECTIONS && (
+            <>
+              <button className="hero-down-button" onClick={scrollToStats} aria-label={t.hero.downLabel}>
+                ↓
+              </button>
 
-          <button className="hero-about-link" onClick={scrollToAbout}>
-            {t.hero.aboutLink}
-          </button>
+              <button className="hero-about-link" onClick={scrollToAbout}>
+                {t.hero.aboutLink}
+              </button>
+            </>
+          )}
+
+          {showHeroNotice && (
+            <div className="hero-development-layer" aria-labelledby="hero-development-title">
+              <div className="development-modal hero-development-notice">
+                <div className="development-modal-icon" aria-hidden="true">
+                  <ToothIcon className="w-8 h-8" />
+                </div>
+
+                <span className="development-modal-kicker">Caninus hambakliinik</span>
+                <h2 id="hero-development-title">{t.modal.title}</h2>
+                <p>{t.modal.body}</p>
+
+                <div className="hero-development-actions">
+                  <a className="development-modal-phone hero-development-phone" href="tel:+37256155030">
+                    <Phone className="w-4 h-4 stroke-[1.8]" aria-hidden="true" />
+                    <span>+372 56 155 030</span>
+                  </a>
+
+                  <a
+                    className="development-modal-action hero-development-action"
+                    href="#contact"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      scrollToContact();
+                    }}
+                  >
+                    <Calendar className="w-4 h-4 stroke-[1.8]" aria-hidden="true" />
+                    {t.modal.request}
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
 
-        <section ref={statsRef} className="stats-section" aria-label={t.hero.statsLabel}>
-          <div className="hero-stat hero-stat-years">
-            <strong>10</strong>
-            <span>{renderLineBreaks(t.stats.years)}</span>
-          </div>
+        {SHOW_INTRO_SECTIONS && (
+          <section ref={statsRef} className={`stats-section ${areStatsVisible ? "is-stats-visible" : ""}`} aria-label={t.hero.statsLabel}>
+            <div className="hero-stat hero-stat-years">
+              <strong>10</strong>
+              <span>{renderLineBreaks(t.stats.years)}</span>
+            </div>
 
-          <div className="hero-stat hero-stat-clinics">
-            <span>{renderLineBreaks(t.stats.clinics)}</span>
-            <strong>02</strong>
-          </div>
-        </section>
+            <div className="hero-stat hero-stat-clinics">
+              <span>{renderLineBreaks(t.stats.clinics)}</span>
+              <strong>02</strong>
+            </div>
+          </section>
+        )}
       </div>
 
-      <section ref={aboutRef} id="about" className="about-section">
-        <div className="about-kicker">{t.about.kicker}</div>
+      {SHOW_INTRO_SECTIONS && (
+        <section ref={aboutRef} id="about" className="about-section">
+          <div className="about-kicker">{t.about.kicker}</div>
 
-        <div className="about-header">
-          <h2 className="about-title">
-            <span>
-              {t.about.line1} <em>{t.about.clinic}</em>
-            </span>
-            <span className="about-title-accent">{t.about.accent}</span>
-            <span>{t.about.line3}</span>
-          </h2>
+          <div className="about-header">
+            <h2 className="about-title">
+              <span>
+                {t.about.line1} <em>{t.about.clinic}</em>
+              </span>
+              <span className="about-title-accent">{t.about.accent}</span>
+              <span>{t.about.line3}</span>
+            </h2>
 
-          <p className="about-copy">
-            {t.about.copy}
-          </p>
-        </div>
-
-        <div className="about-carousel">
-          <div className="about-controls">
-            <button onClick={handlePrevCard} aria-label={t.about.prev} title={t.about.prev}>
-              <ChevronLeft className="w-5 h-5 stroke-[1.2]" />
-            </button>
-            <button onClick={handleNextCard} aria-label={t.about.next} title={t.about.next}>
-              <ChevronRight className="w-5 h-5 stroke-[1.2]" />
-            </button>
+            <p className="about-copy">
+              {t.about.copy}
+            </p>
           </div>
 
-          <div ref={aboutCardsRef} className="about-cards" aria-label={t.about.cardsLabel}>
-            {serviceCards.map((card, idx) => {
-              const isSelected = aboutCardIndex === idx;
+          <div className="about-carousel">
+            <div className="about-controls">
+              <button onClick={handlePrevCard} aria-label={t.about.prev} title={t.about.prev}>
+                <ChevronLeft className="w-5 h-5 stroke-[1.2]" />
+              </button>
+              <button onClick={handleNextCard} aria-label={t.about.next} title={t.about.next}>
+                <ChevronRight className="w-5 h-5 stroke-[1.2]" />
+              </button>
+            </div>
 
-              return (
-                <button
-                  key={card.number}
-                  onClick={() => setAboutCardIndex(idx)}
-                  className={`feature-card ${isSelected ? "is-active" : ""}`}
-                  aria-pressed={isSelected}
-                >
-                  <span className="feature-card-title">{card.title}</span>
-                  <span className="feature-card-description">{card.description}</span>
-                  <span className="feature-card-number">{card.number}</span>
-                </button>
-              );
-            })}
+            <div ref={aboutCardsRef} className="about-cards" aria-label={t.about.cardsLabel}>
+              {serviceCards.map((card, idx) => {
+                const isSelected = aboutCardIndex === idx;
+
+                return (
+                  <button
+                    key={card.number}
+                    onClick={() => setAboutCardIndex(idx)}
+                    className={`feature-card ${isSelected ? "is-active" : ""}`}
+                    aria-pressed={isSelected}
+                  >
+                    <span className="feature-card-title">{card.title}</span>
+                    <span className="feature-card-description">{card.description}</span>
+                    <span className="feature-card-number">{card.number}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <div className="content-shell">
         <section className="route-section">
@@ -678,7 +731,7 @@ export default function App() {
 
             <div className="booking-panel">
               <Suspense fallback={<div className="booking-loading-surface" aria-hidden="true" />}>
-                <BookingForm language={language} onDevelopmentClick={openDevelopmentModal} />
+                <BookingForm language={language} />
               </Suspense>
             </div>
           </div>
@@ -696,46 +749,12 @@ export default function App() {
             <div>
               <a href="/privacy-policy">{t.footer.privacy}</a>
               <a href="/terms-of-service">{t.footer.terms}</a>
-              <a href="/cookie-policy">Cookie</a>
+              <a href="/cookie-policy">{t.footer.cookie}</a>
             </div>
           </div>
         </footer>
       </div>
 
-      {isDevelopmentModalOpen && (
-        <div className="development-modal-layer" role="presentation" onMouseDown={closeDevelopmentModal}>
-          <div
-            className="development-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="development-modal-title"
-            onMouseDown={(event) => event.stopPropagation()}
-          >
-            <button className="development-modal-close" onClick={closeDevelopmentModal} aria-label={t.modal.close}>
-              <X className="w-4 h-4" />
-            </button>
-
-            <div className="development-modal-icon" aria-hidden="true">
-              <ToothIcon className="w-8 h-8" />
-            </div>
-
-            <span className="development-modal-kicker">Caninus hambakliinik</span>
-            <h2 id="development-modal-title">{t.modal.title}</h2>
-            <p>
-              {t.modal.body}
-            </p>
-
-            <a className="development-modal-phone" href="tel:+37256155030">
-              <Phone className="w-4 h-4 stroke-[1.8]" aria-hidden="true" />
-              <span>+372 56 155 030</span>
-            </a>
-
-            <button ref={developmentModalActionRef} className="development-modal-action" onClick={closeDevelopmentModal}>
-              {t.modal.action}
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

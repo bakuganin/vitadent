@@ -10,8 +10,12 @@ export interface ContactInfo {
 export interface BookingData {
   fullName: string;
   phone: string;
+  previousVisit: string;
+  visitGoals: string[];
+  concerns: string[];
+  painFrequency: string;
+  painIntensity: string;
   problem: string;
-  preferredDate: string;
 }
 
 export interface TeamMember {
