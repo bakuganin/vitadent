@@ -450,6 +450,7 @@ export default function App() {
               <span className="intro-split-number intro-split-one">1</span>
               <span className="intro-split-number intro-split-zeroes">00</span>
             </div>
+            <img className="intro-implant-fallback" src="/implant-fallback.png" alt="" />
             <video autoPlay loop muted playsInline preload="auto">
               <source src="/implant-anim.webm?v=clean-20260601" type="video/webm" />
             </video>

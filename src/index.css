@@ -169,6 +169,11 @@ button {
   animation: intro-implant-focus 2750ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.intro-implant-fallback,
+.implant-mobile-fallback {
+  display: none;
+}
+
 .intro-loader-screen.is-revealing .intro-loader-implant video {
   animation: intro-implant-ghost 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -772,6 +777,23 @@ button {
 
 .implant-canvas.is-ready {
   opacity: 1;
+}
+
+.implant-mobile-fallback {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  filter:
+    contrast(1.05)
+    saturate(1.04)
+    drop-shadow(0 26px 42px rgba(36, 45, 54, 0.13));
+  -webkit-mask-image: var(--implant-clean-mask);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-image: var(--implant-clean-mask);
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
 }
 
 .implant-loader {
@@ -2813,6 +2835,43 @@ button {
 }
 
 @media (max-width: 860px) {
+  .intro-loader-implant video,
+  .implant-canvas {
+    display: none;
+  }
+
+  .intro-implant-fallback,
+  .implant-mobile-fallback {
+    display: block;
+  }
+
+  .intro-implant-fallback {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: auto;
+    opacity: 0.98;
+    filter:
+      contrast(1.03)
+      saturate(1.02)
+      drop-shadow(0 30px 46px rgba(36, 45, 54, 0.12));
+    -webkit-mask-image: var(--implant-clean-mask);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-image: var(--implant-clean-mask);
+    mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+    animation: intro-implant-focus 2750ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .intro-loader-screen.is-revealing .intro-implant-fallback {
+    animation: intro-implant-ghost 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .implant-loader {
+    display: none;
+  }
+
   .legal-page-inner {
     width: min(100% - 32px, 720px);
     padding-top: 20px;

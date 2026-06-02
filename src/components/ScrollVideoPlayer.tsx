@@ -35,6 +35,7 @@ export default function ScrollVideoPlayer({ className = "" }: ScrollVideoPlayerP
   return (
     <div className={`implant-video-wrap ${className}`.trim()} aria-hidden="true">
       {!ready && <div className="implant-loader" />}
+      <img className="implant-mobile-fallback" src="/implant-fallback.png" alt="" loading="eager" />
       <video
         ref={videoRef}
         className={`implant-canvas ${ready ? "is-ready" : ""}`}
