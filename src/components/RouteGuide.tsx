@@ -88,6 +88,14 @@ const customIcon = new L.DivIcon({
   popupAnchor: [0, -30],
 });
 
+const routePointIcon = new L.DivIcon({
+  className: "route-leaflet-marker",
+  html: `<div style="width: 24px; height: 24px; border-radius: 999px; background: #3b82f6; border: 2px solid white; box-shadow: 0 4px 12px rgba(32,33,36,.22);"></div>`,
+  iconSize: [24, 24],
+  iconAnchor: [12, 12],
+  popupAnchor: [0, -16],
+});
+
 // Helper component to smoothly animate map bounds when tab changes
 function MapViewUpdater({ bounds }: { bounds: L.LatLngBoundsExpression }) {
   const map = useMap();
@@ -297,17 +305,17 @@ export default function RouteGuide({ language }: { language: Language }) {
 
           {/* Pins for context */}
          {activeTab === "transit" && (
-             <Marker position={busStopCoords}>
+             <Marker position={busStopCoords} icon={routePointIcon}>
                <Popup className="font-sans font-medium text-xs">{t.busStop}</Popup>
              </Marker>
           )}
           {activeTab === "walk" && (
-             <Marker position={vabaduseCoords}>
+             <Marker position={vabaduseCoords} icon={routePointIcon}>
                <Popup className="font-sans font-medium text-xs">{t.square}</Popup>
              </Marker>
           )}
           {activeTab === "car" && (
-             <Marker position={parkingCoords}>
+             <Marker position={parkingCoords} icon={routePointIcon}>
                <Popup className="font-sans font-medium text-xs">{t.parking}</Popup>
              </Marker>
           )}
