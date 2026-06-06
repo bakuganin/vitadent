@@ -25,7 +25,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 
 type BookingFormProps = {
-  language: "et" | "ru";
+  language: "et" | "ru" | "fi" | "en";
 };
 
 type SingleField = "previousVisit" | "painFrequency" | "painIntensity";
@@ -91,6 +91,7 @@ const bookingCopy = {
       "6-7 - tugev, segab söömist ja rääkimist",
       "8-10 - väga tugev, vajab kiiret abi",
     ],
+    addComplaint: "Soovin lisada lühikese kirjelduse",
     complaint: "Kirjeldage oma kaebust",
     multiHint: "Valige üks või mitu varianti, et arst saaks vastuvõtuks paremini valmistuda.",
     painHint: "Kui valu on väga tugev, helistage kiirema aja kokkuleppimiseks kliinikusse.",
@@ -175,6 +176,7 @@ const bookingCopy = {
       "6-7 - сильная, мешает есть и говорить",
       "8-10 - очень сильная, нужна срочная помощь",
     ],
+    addComplaint: "Хочу добавить короткое описание",
     complaint: "Опишите жалобу",
     multiHint: "Можно выбрать один или несколько вариантов, чтобы врачу было проще подготовиться к приему.",
     painHint: "Если боль очень сильная, лучше сразу позвонить в клинику для срочной записи.",
@@ -221,6 +223,162 @@ const bookingCopy = {
       },
     },
   },
+  fi: {
+    required: "Täytä nimi ja puhelinnumero.",
+    fullName: "Nimi",
+    phone: "Puhelinnumero",
+    previousVisit: "Oletko käynyt klinikallamme aiemmin?",
+    previousVisitOptions: ["Kyllä, olen käynyt", "En, tulen ensimmäistä kertaa"],
+    visitGoal: "Käynnin tarkoitus",
+    visitGoals: [
+      "Kiireellinen apu",
+      "Hammassäryn hoito",
+      "Vamma",
+      "Ennaltaehkäisevä tarkastus / konsultaatio",
+      "Karieksen hoito",
+      "Viisaudenhampaan poisto",
+      "Ammattimainen suuhygienia",
+      "Proteesit",
+      "Implantointi",
+      "Hampaiden valkaisu / esteettinen hammashoito",
+    ],
+    concerns: "Mikä sinua vaivaa?",
+    concernOptions: ["Kipu", "Hampaiden herkkyys", "Ienten verenvuoto", "Pahanhajuinen hengitys", "Puuttuva hammas / hampaita", "Muu"],
+    painFrequency: "Kuinka usein kipu ilmenee?",
+    painFrequencyOptions: ["Jatkuvasti", "Pureskellessa", "Kylmää nauttiessa", "Kuumaa nauttiessa", "Makean / happaman kanssa"],
+    painIntensity: "Kivun voimakkuus",
+    painIntensityOptions: [
+      "0 - ei kipua",
+      "1-3 - lievä, ei häiritse arkea",
+      "4-5 - kohtalainen, epämukava mutta siedettävä",
+      "6-7 - voimakas, vaikeuttaa syömistä ja puhumista",
+      "8-10 - erittäin voimakas, vaatii nopeaa apua",
+    ],
+    addComplaint: "Haluan lisätä lyhyen kuvauksen",
+    complaint: "Kuvaile vaivaa",
+    multiHint: "Voit valita yhden tai useamman vaihtoehdon, jotta lääkäri voi valmistautua paremmin.",
+    painHint: "Jos kipu on erittäin voimakas, soita klinikalle nopeampaa aikaa varten.",
+    requiredStep: "Valitse vastaus jatkaaksesi.",
+    requiredContactStep: "Syötä nimi, puhelin ja valitse, oletko käynyt klinikalla aiemmin.",
+    requiredPainFrequency: "Valitse, kuinka usein kipu ilmenee.",
+    requiredPainIntensity: "Valitse kivun voimakkuus.",
+    progress: "Vaihe",
+    back: "Takaisin",
+    continue: "Seuraava",
+    submit: "Lähetä pyyntö",
+    sending: "Lähetetään...",
+    error: "Pyynnön lähetys epäonnistui. Yritä uudelleen tai soita meille.",
+    successTitle: "Pyyntö vastaanotettu",
+    successText:
+      "Saimme ajanvarauspyyntösi. Pyyntöjä on tällä hetkellä paljon, mutta käsittelemme ne mahdollisimman nopeasti. Pahoittelemme mahdollista odotusta.",
+    patient: "Potilas:",
+    contactPhone: "Puhelinnumero:",
+    previousVisitLabel: "Aiempi käynti:",
+    visitGoalLabel: "Käynnin tarkoitus:",
+    concernsLabel: "Vaivat:",
+    painFrequencyLabel: "Kivun tiheys:",
+    painIntensityLabel: "Kivun voimakkuus:",
+    problemLabel: "Lisäkuvaus:",
+    note:
+      "Dr. Jevgeni Abramovits ottaa teihin yhteyttä vahvistaakseen tarkan vastaanottoajan. Kiitos luottamuksesta Caninus-klinikkaan.",
+    reset: "Varaa uudelleen",
+    steps: {
+      contacts: {
+        title: "Yhteystiedot",
+        subtitle: "Jätä nimi ja puhelin, jotta voimme sopia ajan nopeasti.",
+      },
+      visit: {
+        title: "Käynnin tarkoitus",
+        subtitle: "Valitse, minkä vuoksi haluat tulla klinikalle.",
+      },
+      symptoms: {
+        title: "Vaiva",
+        subtitle: "Valitse oireet ja milloin kipu ilmenee useimmiten.",
+      },
+      pain: {
+        title: "Kivun arvio",
+        subtitle: "Valitse kivun voimakkuus ja lisää kuvaus vain tarvittaessa.",
+      },
+    },
+  },
+  en: {
+    required: "Please enter your name and phone number.",
+    fullName: "Name",
+    phone: "Contact phone",
+    previousVisit: "Have you visited our clinic before?",
+    previousVisitOptions: ["Yes, I have", "No, this will be my first visit"],
+    visitGoal: "Visit goal",
+    visitGoals: [
+      "Urgent help",
+      "Toothache treatment",
+      "Trauma",
+      "Preventive check-up / consultation",
+      "Caries treatment",
+      "Wisdom tooth removal",
+      "Professional oral hygiene",
+      "Prosthetics",
+      "Implantation",
+      "Teeth whitening / aesthetic dentistry",
+    ],
+    concerns: "What is bothering you?",
+    concernOptions: ["Pain", "Tooth sensitivity", "Bleeding gums", "Bad breath", "Missing tooth / teeth", "Other"],
+    painFrequency: "How often does the pain occur?",
+    painFrequencyOptions: ["Constantly", "When chewing", "With cold", "With hot", "With sweet / sour"],
+    painIntensity: "Pain intensity",
+    painIntensityOptions: [
+      "0 - no pain",
+      "1-3 - mild, does not affect daily life",
+      "4-5 - moderate, uncomfortable but tolerable",
+      "6-7 - strong, makes eating and speaking difficult",
+      "8-10 - very strong, urgent help needed",
+    ],
+    addComplaint: "I want to add a short description",
+    complaint: "Describe your concern",
+    multiHint: "Choose one or more options so the doctor can prepare better.",
+    painHint: "If the pain is very strong, call the clinic for a faster appointment.",
+    requiredStep: "Choose an answer to continue.",
+    requiredContactStep: "Enter your name, phone and whether you have visited before.",
+    requiredPainFrequency: "Choose how often the pain occurs.",
+    requiredPainIntensity: "Choose the pain intensity.",
+    progress: "Step",
+    back: "Back",
+    continue: "Next",
+    submit: "Send request",
+    sending: "Sending...",
+    error: "Could not send the request. Please try again or call us.",
+    successTitle: "Request received",
+    successText:
+      "We received your booking request. We currently have many requests, but we will review everyone as soon as possible. We apologize in advance for any waiting time.",
+    patient: "Patient:",
+    contactPhone: "Contact phone:",
+    previousVisitLabel: "Previous visit:",
+    visitGoalLabel: "Visit goal:",
+    concernsLabel: "Concerns:",
+    painFrequencyLabel: "Pain frequency:",
+    painIntensityLabel: "Pain intensity:",
+    problemLabel: "Additional description:",
+    note:
+      "Dr. Jevgeni Abramovits will contact you to confirm the exact appointment time. Thank you for trusting Caninus clinic.",
+    reset: "Book again",
+    steps: {
+      contacts: {
+        title: "Contacts",
+        subtitle: "Leave your name and phone so we can quickly arrange a suitable time.",
+      },
+      visit: {
+        title: "Visit goal",
+        subtitle: "Select why you would like to visit the clinic.",
+      },
+      symptoms: {
+        title: "Concern",
+        subtitle: "Choose symptoms and when the pain appears most often.",
+      },
+      pain: {
+        title: "Pain assessment",
+        subtitle: "Choose pain intensity and add a description only if needed.",
+      },
+    },
+  },
 };
 
 export default function BookingForm({ language }: BookingFormProps) {
@@ -229,6 +387,7 @@ export default function BookingForm({ language }: BookingFormProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [stepIndex, setStepIndex] = useState(0);
   const [attemptedStep, setAttemptedStep] = useState<StepId | null>(null);
+  const [showComplaintField, setShowComplaintField] = useState(false);
 
   const steps = useMemo<StepConfig[]>(
     () => [
@@ -330,7 +489,18 @@ export default function BookingForm({ language }: BookingFormProps) {
     setFormData(initialFormData);
     setStepIndex(0);
     setAttemptedStep(null);
+    setShowComplaintField(false);
     setStatus("idle");
+  };
+
+  const toggleComplaintField = () => {
+    setShowComplaintField((isVisible) => {
+      if (isVisible) {
+        setFormData((current) => ({ ...current, problem: "" }));
+      }
+
+      return !isVisible;
+    });
   };
 
   const goNext = () => {
@@ -558,15 +728,40 @@ export default function BookingForm({ language }: BookingFormProps) {
                       </div>
                     </div>
 
-                    <label className="booking-line-field is-textarea">
-                      <span>{t.complaint}</span>
-                      <textarea
-                        value={formData.problem}
-                        onChange={(e) => updateField("problem", e.target.value)}
-                        rows={3}
-                      />
-                      <MessageSquare aria-hidden="true" />
-                    </label>
+                    <div className="booking-step-question">
+                      <button
+                        type="button"
+                        className={`booking-choice-card booking-optional-toggle ${showComplaintField ? "is-selected" : ""}`}
+                        aria-pressed={showComplaintField}
+                        onClick={toggleComplaintField}
+                      >
+                        <span className="booking-choice-check" aria-hidden="true">
+                          <Check />
+                        </span>
+                        <span>{t.addComplaint}</span>
+                        <MessageSquare aria-hidden="true" />
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {showComplaintField && (
+                          <motion.label
+                            className="booking-line-field is-textarea"
+                            initial={{ opacity: 0, y: -8, filter: "blur(6px)" }}
+                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                            exit={{ opacity: 0, y: -8, filter: "blur(6px)" }}
+                            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                          >
+                            <span>{t.complaint}</span>
+                            <textarea
+                              value={formData.problem}
+                              onChange={(e) => updateField("problem", e.target.value)}
+                              rows={3}
+                            />
+                            <MessageSquare aria-hidden="true" />
+                          </motion.label>
+                        )}
+                      </AnimatePresence>
+                    </div>
 
                     <p className="booking-step-note">
                       <Phone aria-hidden="true" />

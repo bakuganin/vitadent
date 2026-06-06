@@ -4,7 +4,7 @@ import { MapPin, Compass, Train, Clock, Car } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from "react-leaflet";
 import L from "leaflet";
 
-type Language = "et" | "ru";
+type Language = "et" | "ru" | "fi" | "en";
 
 const routeCopy = {
   et: {
@@ -39,7 +39,7 @@ const routeCopy = {
     busStop: "Vabaduse väljaku peatus",
     square: "Vabaduse väljak",
     parking: "EP18 parkla",
-    hours: "E-R: 9:00 - 18:00",
+    hours: "E-R: 8:00 - 17:00",
     center: "Tallinna kesklinn",
   },
   ru: {
@@ -74,8 +74,78 @@ const routeCopy = {
     busStop: "Остановка Vabaduse väljak",
     square: "Площадь Свободы",
     parking: "Парковка EP18",
-    hours: "Пн-Пт: 9:00 - 18:00",
+    hours: "Пн-Пт: 8:00 - 17:00",
     center: "Таллинн Центр",
+  },
+  fi: {
+    kicker: "Saapuminen",
+    title: "Helppo sijainti Tallinnan keskustassa",
+    intro:
+      "Caninus-klinikka sijaitsee osoitteessa Tatari 6, Tallinna, vain muutaman minuutin kävelymatkan päässä Vabaduse väljakilta.",
+    transit: "Julkinen",
+    walk: "Kävellen",
+    car: "Autolla",
+    transitTitle: "Bussi ja raitiovaunu",
+    transitIntro: "Lähin pysäkki on Vabaduse väljak, noin 3-4 minuutin kävelymatkan päässä:",
+    transitItems: [
+      "Raitiovaunut 3, 4, 1 ja 5 pysähtyvät Vabaduse väljakin lähellä.",
+      "Bussit 5, 18, 36, 40 ja muut keskeiset Tallinnan linjat kulkevat läheltä.",
+      "Kävele Tatari-katua pitkin. Sisäänkäyntimme jää vasemmalle.",
+    ],
+    walkTitle: "Kävellen Vabaduse väljakilta",
+    walkIntro: "Nopea reitti Vabaduse väljakilta ja vanhankaupungin laidalta:",
+    walkItems: [
+      "Aloita Vabaduse väljakilta vapaudenpatsaan läheltä.",
+      "Käänny Tatari-kadulle, maamerkkinä Hotel Palace.",
+      "Kävele Tatari-katua noin 180 metriä. Tatari 6 on vasemmalla.",
+    ],
+    carTitle: "Pysäköinti ja saapuminen",
+    carIntro: "Saavu Kaarli puiesteen tai Pärnu maanteen suunnasta:",
+    carItems: [
+      "Tatari-katu sijaitsee KESKLINN-pysäköintialueella.",
+      "Lähellä on EP18 Europark -pysäköintialue noin 30 metrin päässä.",
+      "Kadulla voi käyttää 15 minuuttia maksutonta pysäköintiä pysäköintikellolla.",
+    ],
+    busStop: "Vabaduse väljakin pysäkki",
+    square: "Vabaduse väljak",
+    parking: "EP18 pysäköinti",
+    hours: "Ma-Pe: 8:00 - 17:00",
+    center: "Tallinnan keskusta",
+  },
+  en: {
+    kicker: "How to get here",
+    title: "Convenient location in central Tallinn",
+    intro:
+      "Caninus clinic is located at Tatari 6, Tallinn, just a few minutes' walk from Freedom Square.",
+    transit: "Transit",
+    walk: "Walking",
+    car: "By car",
+    transitTitle: "Bus and tram",
+    transitIntro: "The nearest stop is Vabaduse väljak, about 3-4 minutes away on foot:",
+    transitItems: [
+      "Trams 3, 4, 1 and 5 stop near Vabaduse väljak.",
+      "Buses 5, 18, 36, 40 and other central Tallinn routes pass nearby.",
+      "Walk along Tatari street. Our entrance will be on the left.",
+    ],
+    walkTitle: "Walking from Freedom Square",
+    walkIntro: "A quick route from Freedom Square and the edge of the Old Town:",
+    walkItems: [
+      "Start at Freedom Square near the War of Independence Victory Column.",
+      "Turn toward Tatari street, using Hotel Palace as a landmark.",
+      "Walk along Tatari street for about 180 meters. Tatari 6 is on the left.",
+    ],
+    carTitle: "Parking and access",
+    carIntro: "Arrive from Kaarli puiestee or Pärnu maantee:",
+    carItems: [
+      "Tatari street is in the KESKLINN parking zone.",
+      "The EP18 Europark parking area is about 30 meters away.",
+      "Street parking allows 15 minutes free with a parking clock.",
+    ],
+    busStop: "Vabaduse väljak stop",
+    square: "Freedom Square",
+    parking: "EP18 parking",
+    hours: "Mon-Fri: 8:00 - 17:00",
+    center: "Tallinn city center",
   },
 } satisfies Record<Language, Record<string, string | string[]>>;
 

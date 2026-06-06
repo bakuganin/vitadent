@@ -1,14 +1,14 @@
 import { Fragment, lazy, Suspense, useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
-import { Calendar, ChevronLeft, ChevronRight, Mail, MapPin, Phone } from "lucide-react";
+import { Calendar, ChevronLeft, ChevronRight, Mail, MapPin, Phone, X } from "lucide-react";
 
 import { ServiceCard } from "./types";
 
 const BookingForm = lazy(() => import("./components/BookingForm"));
 const RouteGuide = lazy(() => import("./components/RouteGuide"));
 
-type Language = "et" | "ru";
+type Language = "et" | "ru" | "fi" | "en";
 type IntroPhase = "loading" | "split" | "revealing" | "done";
 const LANGUAGE_STORAGE_KEY = "caninus-language";
 const SHOW_INTRO_SECTIONS = false;
@@ -35,7 +35,8 @@ function ToothIcon({ className = "" }: { className?: string }) {
 
 function getInitialLanguage(): Language {
   if (typeof window === "undefined") return "et";
-  return window.localStorage.getItem(LANGUAGE_STORAGE_KEY) === "ru" ? "ru" : "et";
+  const storedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+  return storedLanguage === "ru" || storedLanguage === "fi" || storedLanguage === "en" ? storedLanguage : "et";
 }
 
 const copy = {
@@ -54,6 +55,8 @@ const copy = {
     languageLabel: "Keel",
     languageEt: "Eesti",
     languageRu: "Vene",
+    languageFi: "Soome",
+    languageEn: "Inglise",
     hero: {
       eyebrow: "Caninus hambaravi",
       line1: "Innovaatiline",
@@ -156,6 +159,8 @@ const copy = {
     languageLabel: "Язык",
     languageEt: "Эстонский",
     languageRu: "Русский",
+    languageFi: "Финский",
+    languageEn: "Английский",
     hero: {
       eyebrow: "Стоматология Caninus",
       line1: "Инновационная",
@@ -243,6 +248,214 @@ const copy = {
       request: "Записаться",
     },
   },
+  fi: {
+    brandSubtitle: "Hammaslääkäri",
+    navLabel: "Päävalikko",
+    nav: {
+      home: "Etusivu",
+      about: "Klinikasta",
+      services: "Palvelut",
+      results: "Tulokset",
+      contacts: "Yhteystiedot",
+    },
+    location: "Tallinna, Tatari 6",
+    call: "Soita",
+    languageLabel: "Kieli",
+    languageEt: "Viro",
+    languageRu: "Venäjä",
+    languageFi: "Suomi",
+    languageEn: "Englanti",
+    hero: {
+      eyebrow: "Caninus hammashoito",
+      line1: "Innovatiivinen",
+      strong: "hampaiden palautus",
+      middle: "",
+      technology: "teknologia",
+      forWord: "terveelle",
+      healthy: "hymylle",
+      cta: "Varaa konsultaatio",
+      noteLeft: "Implantin seuranta",
+      noteRight: "Premium-materiaalit",
+      smilePrefix: "ja",
+      smileStrong: "varma",
+      smileLine: "hymy",
+      patients:
+        "Potilaat, joilla on vaativia hammashoidon tarpeita, saavat diagnostiikan, yksilöllisen hoitosuunnitelman ja mukavuuden takaisin.",
+      statsLabel: "Caninus kokemus",
+      downLabel: "Siirry klinikan tilastoihin",
+      aboutLink: "Klinikasta",
+    },
+    stats: {
+      years: "Vuotta\nkokemusta",
+      clinics: "Klinikkaa\nEuroopassa",
+    },
+    about: {
+      kicker: "Klinikasta",
+      line1: "Enemmän kuin",
+      clinic: "klinikka",
+      accent: "Hymysi",
+      line3: "kumppani",
+      copy: "Caninuksessa saat enemmän kuin hoitoa: saat huolellisen kumppanin suun terveyteen ja varmaan hymyyn.",
+      prev: "Edellinen kortti",
+      next: "Seuraava kortti",
+      cardsLabel: "Klinikan edut",
+    },
+    serviceCards: [
+      {
+        number: "01",
+        title: "Kokeneet\nasiantuntijat",
+        description: "Johtavat hammaskirurgit, joilla on yli 10 vuoden kliininen kokemus Virossa ja EU:ssa.",
+      },
+      {
+        number: "02",
+        title: "Yksilöllinen\nlähestymistapa",
+        description: "Henkilökohtainen hoitosuunnitelma\njokaiselle potilaalle.",
+      },
+      {
+        number: "03",
+        title: "Nykyaikainen\nteknologia",
+        description: "3D-diagnostiikka, digitaalinen hymyn suunnittelu ja premium-implanttiratkaisut.",
+      },
+      {
+        number: "04",
+        title: "Korkeat turvallisuus-\nstandardit",
+        description: "Steriilit protokollat, eurooppalaiset materiaalit ja hellä puudutus jokaisessa vaiheessa.",
+      },
+    ],
+    contact: {
+      eyebrow: "Ajanvaraus",
+      title1: "Olemme valmiit",
+      titleStrong: "auttamaan",
+      copy: "Jätä yhteystietosi, niin soitamme takaisin ja sovimme sinulle sopivan konsultaatioajan.",
+      doctorLabel: "Johtava lääkäri",
+      phone: "Puhelin",
+      email: "Sähköposti",
+      address: "Klinikan osoite",
+      addressValue: "Tatari 6, Tallinna, Viro",
+    },
+    footer: {
+      brand: "Caninus hammashoito",
+      legal: "Rek. nro: 14044544 · Tatari 6, Tallinna, Viro",
+      privacy: "Tietosuojakäytäntö",
+      terms: "Palveluehdot",
+      cookie: "Cookie",
+    },
+    modal: {
+      close: "Sulje ikkuna",
+      title: "Sivusto on vielä kehitteillä",
+      body: "Päivitämme sivustoa vaiheittain. Konsultaatiota varten voit ottaa meihin yhteyttä puhelimitse.",
+      item1Title: "Osioita lisätään pian",
+      item1Text: "Palvelut ja tulokset valmistellaan parhaillaan julkaistavaksi.",
+      item2Title: "Tiedot tarkistetaan",
+      item2Text: "Keräämme kliiniset tiedot huolellisesti, jotta ne voidaan esittää oikein.",
+      action: "Ymmärrän",
+      request: "Varaa aika",
+    },
+  },
+  en: {
+    brandSubtitle: "Dental clinic",
+    navLabel: "Main menu",
+    nav: {
+      home: "Home",
+      about: "About",
+      services: "Services",
+      results: "Results",
+      contacts: "Contacts",
+    },
+    location: "Tallinn, Tatari 6",
+    call: "Call",
+    languageLabel: "Language",
+    languageEt: "Estonian",
+    languageRu: "Russian",
+    languageFi: "Finnish",
+    languageEn: "English",
+    hero: {
+      eyebrow: "Caninus dental care",
+      line1: "Innovative",
+      strong: "tooth restoration",
+      middle: "",
+      technology: "technology",
+      forWord: "for a",
+      healthy: "healthy smile",
+      cta: "Book a consultation",
+      noteLeft: "Implant follow-up",
+      noteRight: "Premium materials",
+      smilePrefix: "and",
+      smileStrong: "confident",
+      smileLine: "smile",
+      patients:
+        "Patients with complex dental needs receive diagnostics, a personal treatment plan and comfort back.",
+      statsLabel: "Caninus experience",
+      downLabel: "Go to clinic statistics",
+      aboutLink: "About us",
+    },
+    stats: {
+      years: "Years of\nexperience",
+      clinics: "Clinics\nin Europe",
+    },
+    about: {
+      kicker: "About",
+      line1: "More than",
+      clinic: "a clinic",
+      accent: "Your smile",
+      line3: "partner",
+      copy: "At Caninus you receive more than treatment: you get an attentive partner for your oral health and confident smile.",
+      prev: "Previous card",
+      next: "Next card",
+      cardsLabel: "Clinic advantages",
+    },
+    serviceCards: [
+      {
+        number: "01",
+        title: "Experienced\nspecialists",
+        description: "Leading dental surgeons with more than 10 years of clinical experience in Estonia and the EU.",
+      },
+      {
+        number: "02",
+        title: "Personal\napproach",
+        description: "An individual treatment plan\nfor every patient.",
+      },
+      {
+        number: "03",
+        title: "Modern\ntechnology",
+        description: "3D diagnostics, digital smile planning and premium implant systems.",
+      },
+      {
+        number: "04",
+        title: "High safety\nstandards",
+        description: "Sterile protocols, European materials and gentle anesthesia at every step.",
+      },
+    ],
+    contact: {
+      eyebrow: "Booking",
+      title1: "We are ready",
+      titleStrong: "to help",
+      copy: "Leave your contact details and we will call you back to find a convenient consultation time.",
+      doctorLabel: "Lead dentist",
+      phone: "Phone",
+      email: "Email",
+      address: "Clinic address",
+      addressValue: "Tatari 6, Tallinn, Estonia",
+    },
+    footer: {
+      brand: "Caninus dental clinic",
+      legal: "Reg. no: 14044544 · Tatari 6, Tallinn, Estonia",
+      privacy: "Privacy policy",
+      terms: "Terms of service",
+      cookie: "Cookie",
+    },
+    modal: {
+      close: "Close window",
+      title: "The website is still in development",
+      body: "We are updating the website step by step. For a consultation, you can contact us by phone.",
+      item1Title: "Sections are coming soon",
+      item1Text: "Services and results are currently being prepared for publication.",
+      item2Title: "Information is being checked",
+      item2Text: "We carefully collect clinical data so it can be shown correctly.",
+      action: "Got it",
+      request: "Book a visit",
+    },
+  },
 } satisfies Record<Language, {
   brandSubtitle: string;
   navLabel: string;
@@ -252,6 +465,8 @@ const copy = {
   languageLabel: string;
   languageEt: string;
   languageRu: string;
+  languageFi: string;
+  languageEn: string;
   hero: Record<string, string>;
   stats: Record<"years" | "clinics", string>;
   about: Record<string, string>;
@@ -262,11 +477,14 @@ const copy = {
 }>;
 
 export default function App() {
+  const lenisRef = useRef<Lenis | null>(null);
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
+    lenisRef.current = lenis;
 
     function raf(time: number) {
       lenis.raf(time);
@@ -277,6 +495,7 @@ export default function App() {
 
     return () => {
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
 
@@ -285,6 +504,7 @@ export default function App() {
   const [introProgress, setIntroProgress] = useState(0);
   const [introPhase, setIntroPhase] = useState<IntroPhase>("loading");
   const [showHeroNotice, setShowHeroNotice] = useState(false);
+  const [isBookingModalOpen, setBookingModalOpen] = useState(false);
   const [areStatsVisible, setStatsVisible] = useState(false);
   const statsRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
@@ -360,6 +580,28 @@ export default function App() {
   }, [introPhase]);
 
   useEffect(() => {
+    if (!isBookingModalOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    lenisRef.current?.stop();
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setBookingModalOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      lenisRef.current?.start();
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isBookingModalOpen]);
+
+  useEffect(() => {
     const stats = statsRef.current;
     if (!stats) return;
 
@@ -401,6 +643,17 @@ export default function App() {
 
   const scrollToHeroNotice = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const openBookingModal = () => {
+    const scrollTop = window.scrollY;
+    setBookingModalOpen(true);
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: scrollTop, behavior: "auto" });
+    });
+    window.setTimeout(() => {
+      window.scrollTo({ top: scrollTop, behavior: "auto" });
+    }, 80);
   };
 
   useEffect(() => {
@@ -471,22 +724,22 @@ export default function App() {
             {t.location}
           </span>
           <div className="language-switch" aria-label={t.languageLabel}>
-            <button
-              className={language === "et" ? "is-active" : ""}
-              onClick={() => setLanguage("et")}
-              aria-pressed={language === "et"}
-              title={t.languageEt}
-            >
-              ET
-            </button>
-            <button
-              className={language === "ru" ? "is-active" : ""}
-              onClick={() => setLanguage("ru")}
-              aria-pressed={language === "ru"}
-              title={t.languageRu}
-            >
-              RU
-            </button>
+            {([
+              ["et", t.languageEt],
+              ["ru", t.languageRu],
+              ["fi", t.languageFi],
+              ["en", t.languageEn],
+            ] as const).map(([code, title]) => (
+              <button
+                key={code}
+                className={language === code ? "is-active" : ""}
+                onClick={() => setLanguage(code)}
+                aria-pressed={language === code}
+                title={title}
+              >
+                {code.toUpperCase()}
+              </button>
+            ))}
           </div>
           <a className="header-call" href="tel:+37256155030">{t.call}</a>
         </div>
@@ -511,17 +764,14 @@ export default function App() {
                     <span>+372 56 155 030</span>
                   </a>
 
-                  <a
+                  <button
+                    type="button"
                     className="development-modal-action hero-development-action"
-                    href="#contact"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      scrollToContact();
-                    }}
+                    onClick={openBookingModal}
                   >
                     <Calendar className="w-4 h-4 stroke-[1.8]" aria-hidden="true" />
                     {t.modal.request}
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -542,6 +792,46 @@ export default function App() {
           </section>
         )}
       </div>
+
+      {isBookingModalOpen && (
+        <div
+          className="booking-modal-layer"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="booking-modal-title"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setBookingModalOpen(false);
+            }
+          }}
+        >
+          <div className="booking-modal-shell">
+            <button
+              type="button"
+              className="booking-modal-close"
+              onClick={() => setBookingModalOpen(false)}
+              aria-label={t.modal.close}
+            >
+              <X className="w-4 h-4" aria-hidden="true" />
+            </button>
+
+            <div className="booking-modal-heading">
+              <span className="section-eyebrow">{t.contact.eyebrow}</span>
+              <h3 id="booking-modal-title">
+                {t.contact.title1}
+                <strong>{t.contact.titleStrong}</strong>
+              </h3>
+              <p>{t.contact.copy}</p>
+            </div>
+
+            <div className="booking-modal-form">
+              <Suspense fallback={<div className="booking-loading-surface" aria-hidden="true" />}>
+                <BookingForm language={language} />
+              </Suspense>
+            </div>
+          </div>
+        </div>
+      )}
 
       {SHOW_INTRO_SECTIONS && (
         <section ref={aboutRef} id="about" className="about-section">
@@ -614,13 +904,25 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="contact-card doctor-card">
-                <div className="doctor-avatar">
-                  <img src="/jevgeni abramovits.png" alt="dr. Jevgeni Abramovits" />
+              <div className="contact-doctors">
+                <div className="contact-card doctor-card">
+                  <div className="doctor-avatar">
+                    <img src="/jevgeni abramovits.png" alt="dr. Jevgeni Abramovits" />
+                  </div>
+                  <div>
+                    <span>{t.contact.doctorLabel}</span>
+                    <strong>dr. Jevgeni Abramovits</strong>
+                  </div>
                 </div>
-                <div>
-                  <span>{t.contact.doctorLabel}</span>
-                  <strong>dr. Jevgeni Abramovits</strong>
+
+                <div className="contact-card doctor-card">
+                  <div className="doctor-avatar doctor-avatar-fallback" aria-hidden="true">
+                    <span>SH</span>
+                  </div>
+                  <div>
+                    <span>{t.contact.doctorLabel}</span>
+                    <strong>dr. Siiri Haugas</strong>
+                  </div>
                 </div>
               </div>
 

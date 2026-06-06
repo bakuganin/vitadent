@@ -11,7 +11,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-type Language = "et" | "ru";
+type Language = "et" | "ru" | "fi" | "en";
 
 type LegalSection = {
   title: string;
@@ -29,7 +29,7 @@ export type LegalCopy = {
 };
 
 type LegalPageProps = {
-  documents: Record<Language, LegalCopy>;
+  documents: Partial<Record<Language, LegalCopy>> & Record<"et", LegalCopy>;
 };
 
 const LANGUAGE_STORAGE_KEY = "caninus-language";
@@ -59,11 +59,36 @@ const chromeCopy = {
     registry: "Рег. номер: 14044544",
     address: "Tatari 6, Таллинн, Эстония",
   },
+  fi: {
+    back: "Etusivulle",
+    language: "Kieli",
+    legal: "Juridiset asiakirjat",
+    privacy: "Tietosuojakäytäntö",
+    terms: "Palveluehdot",
+    cookie: "Cookie",
+    contacts: "Yhteystiedot",
+    company: "CANINUS HAMBAKLIINIK OÜ",
+    registry: "Rek. nro: 14044544",
+    address: "Tatari 6, Tallinna, Viro",
+  },
+  en: {
+    back: "Home",
+    language: "Language",
+    legal: "Legal documents",
+    privacy: "Privacy policy",
+    terms: "Terms of service",
+    cookie: "Cookie",
+    contacts: "Contact",
+    company: "CANINUS HAMBAKLIINIK OÜ",
+    registry: "Reg. no: 14044544",
+    address: "Tatari 6, Tallinn, Estonia",
+  },
 } satisfies Record<Language, Record<string, string>>;
 
 function getInitialLanguage(): Language {
   if (typeof window === "undefined") return "et";
-  return window.localStorage.getItem(LANGUAGE_STORAGE_KEY) === "ru" ? "ru" : "et";
+  const storedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+  return storedLanguage === "ru" || storedLanguage === "fi" || storedLanguage === "en" ? storedLanguage : "et";
 }
 
 function getDocumentIcon(type: LegalCopy["type"]) {
@@ -74,7 +99,7 @@ function getDocumentIcon(type: LegalCopy["type"]) {
 
 export default function LegalPage({ documents }: LegalPageProps) {
   const [language, setLanguage] = useState<Language>(getInitialLanguage);
-  const content = documents[language];
+  const content = documents[language] ?? documents.en ?? documents.et;
   const t = chromeCopy[language];
   const DocumentIcon = useMemo(() => getDocumentIcon(content.type), [content.type]);
 
@@ -94,22 +119,17 @@ export default function LegalPage({ documents }: LegalPageProps) {
 
           <div className="legal-language-switch" aria-label={t.language}>
             <Languages aria-hidden="true" />
-            <button
-              type="button"
-              className={language === "et" ? "is-active" : ""}
-              onClick={() => setLanguage("et")}
-              aria-pressed={language === "et"}
-            >
-              ET
-            </button>
-            <button
-              type="button"
-              className={language === "ru" ? "is-active" : ""}
-              onClick={() => setLanguage("ru")}
-              aria-pressed={language === "ru"}
-            >
-              RU
-            </button>
+            {(["et", "ru", "fi", "en"] as const).map((code) => (
+              <button
+                key={code}
+                type="button"
+                className={language === code ? "is-active" : ""}
+                onClick={() => setLanguage(code)}
+                aria-pressed={language === code}
+              >
+                {code.toUpperCase()}
+              </button>
+            ))}
           </div>
         </nav>
 
