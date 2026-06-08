@@ -184,7 +184,7 @@ export default async function handler(req, res) {
   const { data, error } = await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL || "no-reply@caninus.ee",
     to: process.env.CONTACT_EMAIL || "caninushambakliinik@gmail.com",
-    cc: process.env.CONTACT_CC_EMAIL || "jegorbakunin@gmail.com",
+    // cc: process.env.CONTACT_CC_EMAIL || "jegorbakunin@gmail.com",
     subject: `Caninus consultation request from ${fullName}`,
     html: renderBookingEmail({ fullName, phone, previousVisit, visitGoals, concerns, painFrequency, painIntensity, problem }),
   });
