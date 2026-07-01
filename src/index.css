@@ -1409,6 +1409,7 @@ button {
   gap: clamp(20px, 3vw, 38px);
   width: min(1020px, 100%);
   max-height: min(820px, calc(100svh - 42px));
+  min-height: 0;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.72);
   border-radius: 20px;
@@ -1474,9 +1475,12 @@ button {
 
 .booking-modal-form {
   min-width: 0;
+  min-height: 0;
   max-height: calc(min(820px, 100svh - 42px) - clamp(48px, 6vw, 80px));
   overflow: auto;
   overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   padding: 2px 4px 2px 0;
   scrollbar-gutter: stable;
 }
@@ -3009,8 +3013,11 @@ button {
 
   .booking-modal-shell {
     grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
     gap: 22px;
+    height: calc(100svh - 24px);
     max-height: calc(100svh - 24px);
+    min-height: 0;
     padding: 28px 18px 18px;
     border-radius: 18px;
   }
@@ -3033,7 +3040,8 @@ button {
   }
 
   .booking-modal-form {
-    max-height: calc(100svh - 270px);
+    max-height: none;
+    min-height: 0;
     overflow: auto;
     padding: 0;
   }
@@ -3322,6 +3330,7 @@ button {
   }
 
   .booking-modal-shell {
+    height: calc(100svh - 16px);
     max-height: calc(100svh - 16px);
     overflow: hidden;
     padding: 24px 14px 16px;
@@ -3336,10 +3345,6 @@ button {
 
   .booking-modal-heading h3 {
     font-size: clamp(30px, 9vw, 38px);
-  }
-
-  .booking-modal-form {
-    max-height: calc(100svh - 232px);
   }
 
   .booking-modal-form .booking-step-top {

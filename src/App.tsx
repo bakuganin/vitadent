@@ -805,7 +805,7 @@ export default function App() {
             }
           }}
         >
-          <div className="booking-modal-shell">
+          <div className="booking-modal-shell" data-lenis-prevent>
             <button
               type="button"
               className="booking-modal-close"
@@ -824,7 +824,7 @@ export default function App() {
               <p>{t.contact.copy}</p>
             </div>
 
-            <div className="booking-modal-form">
+            <div className="booking-modal-form" data-lenis-prevent>
               <Suspense fallback={<div className="booking-loading-surface" aria-hidden="true" />}>
                 <BookingForm language={language} />
               </Suspense>
