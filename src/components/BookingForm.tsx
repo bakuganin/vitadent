@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { BookingData } from "../types";
 import {
@@ -383,6 +383,7 @@ const bookingCopy = {
 
 export default function BookingForm({ language }: BookingFormProps) {
   const t = bookingCopy[language];
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<BookingData>(initialFormData);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [stepIndex, setStepIndex] = useState(0);
@@ -431,6 +432,15 @@ export default function BookingForm({ language }: BookingFormProps) {
     setFormData((current) => ({ ...current, painFrequency: "" }));
   }, [formData.painFrequency, requiresPainFrequency]);
 
+  const scrollStepToTop = () => {
+    const scrollContainer = formRef.current?.closest<HTMLElement>(".booking-modal-form");
+    scrollContainer?.scrollTo({ top: 0, behavior: "auto" });
+  };
+
+  useEffect(() => {
+    window.requestAnimationFrame(scrollStepToTop);
+  }, [stepIndex]);
+
   const updateField = <K extends keyof BookingData>(field: K, value: BookingData[K]) => {
     setFormData((current) => ({ ...current, [field]: value }));
   };
@@ -456,6 +466,7 @@ export default function BookingForm({ language }: BookingFormProps) {
 
     if (!isFormReady) {
       const firstInvalidStep = !isContactStepValid ? 0 : !isVisitStepValid ? 1 : !isSymptomsStepValid ? 2 : 3;
+      scrollStepToTop();
       setStepIndex(firstInvalidStep);
       setAttemptedStep(steps[firstInvalidStep].id);
       return;
@@ -487,6 +498,7 @@ export default function BookingForm({ language }: BookingFormProps) {
 
   const handleReset = () => {
     setFormData(initialFormData);
+    scrollStepToTop();
     setStepIndex(0);
     setAttemptedStep(null);
     setShowComplaintField(false);
@@ -510,11 +522,13 @@ export default function BookingForm({ language }: BookingFormProps) {
     }
 
     setAttemptedStep(null);
+    scrollStepToTop();
     setStepIndex((current) => Math.min(current + 1, steps.length - 1));
   };
 
   const goBack = () => {
     setAttemptedStep(null);
+    scrollStepToTop();
     setStepIndex((current) => Math.max(current - 1, 0));
   };
 
@@ -579,6 +593,7 @@ export default function BookingForm({ language }: BookingFormProps) {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             onSubmit={handleSubmit}
+            ref={formRef}
             className="booking-form booking-step-form"
           >
             <div className="booking-step-top">
