@@ -3109,8 +3109,12 @@ button {
   }
 
   .hero-development-layer {
-    align-items: flex-start;
-    padding: 154px 20px 36px;
+    align-items: center;
+    padding: 92px 20px 46px;
+  }
+
+  .development-landing-section {
+    min-height: max(620px, calc(100svh - 96px));
   }
 
   .hero-development-notice {
@@ -3316,6 +3320,10 @@ button {
     --implant-width: 142vw;
   }
 
+  .development-landing-section {
+    min-height: max(560px, calc(100svh - 96px));
+  }
+
   .brand-logo {
     width: 116px;
   }
@@ -3404,14 +3412,14 @@ button {
   }
 
   .hero-development-layer {
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    padding: 136px 18px 32px;
+    padding: 82px 18px 34px;
   }
 
   .hero-development-notice {
     width: min(388px, 100%);
-    padding: 28px 20px 24px;
+    padding: 26px 20px 24px;
     margin-inline: auto;
   }
 
@@ -3440,6 +3448,20 @@ button {
   .development-modal-phone.hero-development-phone {
     padding: 0 16px;
     font-size: 13px;
+  }
+
+  .development-modal-icon {
+    width: 58px;
+    height: 58px;
+    margin-bottom: 20px;
+  }
+
+  .development-modal h2 {
+    font-size: clamp(24px, 6.4vw, 30px);
+  }
+
+  .development-modal > p {
+    margin: 16px auto 22px;
   }
 
   .hero-about-link {
