@@ -313,6 +313,17 @@ export default function RouteGuide({ language }: { language: Language }) {
             ))}
           </div>
 
+          <div className="grid gap-2 border-t border-stone-200/70 pt-3 text-xs leading-relaxed text-stone-500">
+            <p className="flex gap-2">
+              <Car className="mt-0.5 h-3.5 w-3.5 shrink-0 text-stone-500" aria-hidden="true" />
+              <span>{(t.carItems as string[])[1]}</span>
+            </p>
+            <p className="flex gap-2">
+              <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-stone-500" aria-hidden="true" />
+              <span>{(t.carItems as string[])[2]}</span>
+            </p>
+          </div>
+
           {routeStatus !== "idle" && (
             <p className="text-xs leading-relaxed text-stone-500" role="status">
               {routeStatus === "locating" ? directions.locating : directions.fallback}
@@ -353,7 +364,7 @@ export default function RouteGuide({ language }: { language: Language }) {
           </span>
         </div>
 
-        <div className="absolute top-20 left-4 bg-[#212121] py-1.5 px-3 rounded-full text-[10px] text-white font-sans uppercase tracking-widest flex items-center gap-1.5 shadow-md z-[400] pointer-events-none">
+        <div className="absolute top-4 right-4 bg-[#212121] py-1.5 px-3 rounded-full text-[10px] text-white font-sans uppercase tracking-widest flex items-center gap-1.5 shadow-md z-[400] pointer-events-none">
           <MapPin className="w-3 h-3 text-white" />
           {t.center}
         </div>
