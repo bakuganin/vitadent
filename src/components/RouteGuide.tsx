@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { MapPin, Compass, Train, Clock, Car } from "lucide-react";
-import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from "react-leaflet";
+import { MapPin, Compass, Train, Clock, Car, ExternalLink, LocateFixed } from "lucide-react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 
 type Language = "et" | "ru" | "fi" | "en";
+type TravelMode = "transit" | "walking" | "driving";
 
 const routeCopy = {
   et: {
@@ -149,6 +149,49 @@ const routeCopy = {
   },
 } satisfies Record<Language, Record<string, string | string[]>>;
 
+const directionsCopy = {
+  et: {
+    title: "Marsruut teie asukohast",
+    intro: "Valige sobiv liikumisviis. Brauser küsib teie asukohta ja avab marsruudi Google Mapsis.",
+    locating: "Küsin teie asukohta...",
+    fallback: "Asukohta ei õnnestunud saada. Avame Google Mapsi sihtkohaga Tatari 6.",
+    transit: "Ühistransport",
+    walking: "Jalgsi",
+    driving: "Autoga",
+    open: "Ava marsruut",
+  },
+  ru: {
+    title: "Маршрут от вашего местоположения",
+    intro: "Выберите способ передвижения. Браузер запросит геолокацию и откроет маршрут в Google Maps.",
+    locating: "Запрашиваем ваше местоположение...",
+    fallback: "Не удалось получить геолокацию. Откроем Google Maps с адресом Tatari 6.",
+    transit: "На транспорте",
+    walking: "Пешком",
+    driving: "На машине",
+    open: "Открыть маршрут",
+  },
+  fi: {
+    title: "Reitti sijainnistasi",
+    intro: "Valitse kulkutapa. Selain kysyy sijaintisi ja avaa reitin Google Mapsissa.",
+    locating: "Pyydetään sijaintiasi...",
+    fallback: "Sijaintia ei saatu. Avaamme Google Mapsin osoitteella Tatari 6.",
+    transit: "Julkinen",
+    walking: "Kävellen",
+    driving: "Autolla",
+    open: "Avaa reitti",
+  },
+  en: {
+    title: "Route from your location",
+    intro: "Choose how you are coming. Your browser will ask for location and open the route in Google Maps.",
+    locating: "Requesting your location...",
+    fallback: "Could not get your location. Opening Google Maps with Tatari 6 as the destination.",
+    transit: "Transit",
+    walking: "Walking",
+    driving: "By car",
+    open: "Open route",
+  },
+} satisfies Record<Language, Record<string, string>>;
+
 // Custom tooth marker icon
 const customIcon = new L.DivIcon({
   className: "custom-leaflet-marker",
@@ -158,63 +201,70 @@ const customIcon = new L.DivIcon({
   popupAnchor: [0, -30],
 });
 
-const routePointIcon = new L.DivIcon({
-  className: "route-leaflet-marker",
-  html: `<div style="width: 24px; height: 24px; border-radius: 999px; background: #3b82f6; border: 2px solid white; box-shadow: 0 4px 12px rgba(32,33,36,.22);"></div>`,
-  iconSize: [24, 24],
-  iconAnchor: [12, 12],
-  popupAnchor: [0, -16],
-});
-
-// Helper component to smoothly animate map bounds when tab changes
-function MapViewUpdater({ bounds }: { bounds: L.LatLngBoundsExpression }) {
+function MapViewUpdater({ center }: { center: L.LatLngExpression }) {
   const map = useMap();
   useEffect(() => {
-    map.flyToBounds(bounds, { padding: [40, 40], duration: 1.5 });
-  }, [bounds, map]);
+    map.setView(center, 18, { animate: false });
+  }, [center, map]);
   return null;
 }
 
 export default function RouteGuide({ language }: { language: Language }) {
   const t = routeCopy[language];
-  const [activeTab, setActiveTab] = useState<"car" | "walk" | "transit">("transit");
+  const directions = directionsCopy[language];
+  const [routeStatus, setRouteStatus] = useState<"idle" | "locating" | "fallback">("idle");
 
   // Accurate Coordinates following Tallinn streets
-  const clinicCoords: [number, number] = [59.4319, 24.7459]; // Tatari 6
-  const vabaduseCoords: [number, number] = [59.4336, 24.7443]; // Freedom Square
-  const busStopCoords: [number, number] = [59.4342, 24.7451]; // Vabaduse väljak bus stop (Pärnu mnt)
-  const parkingCoords: [number, number] = [59.4321, 24.7465]; // Europark near Tatari
-  const carStartCoords: [number, number] = [59.4333, 24.7410]; // Kaarli puiestee
+  const clinicCoords: [number, number] = [59.43178, 24.74645]; // Tatari 6
+  const mapCenter = clinicCoords;
 
-  // Key intersection for routing
-  const parnuTatariIntersection: [number, number] = [59.4326, 24.7461];
+  const buildDirectionsUrl = (mode: TravelMode, origin?: GeolocationCoordinates) => {
+    const params = new URLSearchParams({
+      api: "1",
+      destination: `${clinicCoords[0]},${clinicCoords[1]}`,
+      travelmode: mode,
+    });
 
-  // Precise Routes following roads
-  const walkRoute: [number, number][] = [
-    vabaduseCoords, 
-    parnuTatariIntersection, 
-    clinicCoords
-  ];
-  
-  const transitRoute: [number, number][] = [
-    busStopCoords, 
-    parnuTatariIntersection, 
-    clinicCoords
-  ];
-  
-  const carRoute: [number, number][] = [
-    carStartCoords, 
-    [59.4331, 24.7438], // Vabaduse intersection
-    parnuTatariIntersection, 
-    parkingCoords
-  ];
+    if (origin) {
+      params.set("origin", `${origin.latitude},${origin.longitude}`);
+    }
 
-  const currentBounds =
-    activeTab === "walk"
-      ? L.latLngBounds(walkRoute)
-      : activeTab === "transit"
-      ? L.latLngBounds(transitRoute)
-      : L.latLngBounds([carRoute[0], clinicCoords]);
+    return `https://www.google.com/maps/dir/?${params.toString()}`;
+  };
+
+  const openDirections = (mode: TravelMode) => {
+    const mapsWindow = window.open("about:blank", "_blank");
+
+    if (!mapsWindow) {
+      setRouteStatus("fallback");
+      return;
+    }
+
+    if (!navigator.geolocation) {
+      setRouteStatus("fallback");
+      mapsWindow.location.href = buildDirectionsUrl(mode);
+      return;
+    }
+
+    setRouteStatus("locating");
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        setRouteStatus("idle");
+        mapsWindow.location.href = buildDirectionsUrl(mode, coords);
+      },
+      () => {
+        setRouteStatus("fallback");
+        mapsWindow.location.href = buildDirectionsUrl(mode);
+      },
+      { enableHighAccuracy: true, timeout: 9000, maximumAge: 60000 },
+    );
+  };
+
+  const routeModes: { mode: TravelMode; label: string; Icon: typeof Train }[] = [
+    { mode: "transit", label: directions.transit, Icon: Train },
+    { mode: "walking", label: directions.walking, Icon: Compass },
+    { mode: "driving", label: directions.driving, Icon: Car },
+  ];
 
   return (
     <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
@@ -232,117 +282,42 @@ export default function RouteGuide({ language }: { language: Language }) {
           </p>
         </div>
 
-        {/* Dynamic Route Info Tab Triggers (Pill Style) */}
-        <div className="flex items-center justify-between sm:justify-start w-full sm:w-max bg-stone-100/80 p-1.5 rounded-full border border-stone-200/50 mb-6">
-          <button
-            onClick={() => setActiveTab("transit")}
-            className={`relative flex-1 sm:flex-none px-3 sm:px-6 py-2.5 text-[13px] sm:text-sm font-sans font-medium transition-colors duration-300 flex items-center justify-center gap-2 rounded-full cursor-pointer z-10 ${
-              activeTab === "transit" ? "text-stone-900" : "text-stone-500 hover:text-stone-700"
-            }`}
-          >
-            {activeTab === "transit" && (
-              <motion.div layoutId="tab-pill" className="absolute inset-0 bg-white rounded-full shadow-sm border border-stone-200/40 -z-10" />
-            )}
-            <Train className="w-4 h-4" />
-            <span>{t.transit}</span>
-          </button>
+        <div className="grid gap-4 rounded-2xl border border-stone-200/60 bg-white/52 p-4 shadow-sm">
+          <div className="flex gap-3">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-stone-900 text-white">
+              <LocateFixed className="h-4 w-4" aria-hidden="true" />
+            </span>
+            <div>
+              <h4 className="text-sm font-extrabold text-stone-900">{directions.title}</h4>
+              <p className="mt-1 text-xs leading-relaxed text-stone-500">{directions.intro}</p>
+            </div>
+          </div>
 
-          <button
-            onClick={() => setActiveTab("walk")}
-            className={`relative flex-1 sm:flex-none px-3 sm:px-6 py-2.5 text-[13px] sm:text-sm font-sans font-medium transition-colors duration-300 flex items-center justify-center gap-2 rounded-full cursor-pointer z-10 ${
-              activeTab === "walk" ? "text-stone-900" : "text-stone-500 hover:text-stone-700"
-            }`}
-          >
-            {activeTab === "walk" && (
-              <motion.div layoutId="tab-pill" className="absolute inset-0 bg-white rounded-full shadow-sm border border-stone-200/40 -z-10" />
-            )}
-            <Compass className="w-4 h-4" />
-            <span>{t.walk}</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab("car")}
-            className={`relative flex-1 sm:flex-none px-3 sm:px-6 py-2.5 text-[13px] sm:text-sm font-sans font-medium transition-colors duration-300 flex items-center justify-center gap-2 rounded-full cursor-pointer z-10 ${
-              activeTab === "car" ? "text-stone-900" : "text-stone-500 hover:text-stone-700"
-            }`}
-          >
-            {activeTab === "car" && (
-              <motion.div layoutId="tab-pill" className="absolute inset-0 bg-white rounded-full shadow-sm border border-stone-200/40 -z-10" />
-            )}
-            <Car className="w-4 h-4" />
-            <span>{t.car}</span>
-          </button>
-        </div>
-
-        {/* Tab content view - Flexible height container prevents jumping but allows expansion */}
-        <div className="relative min-h-[260px] md:min-h-[220px]">
-          <AnimatePresence mode="wait">
-            {activeTab === "transit" && (
-              <motion.div
-                key="transit"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 10 }}
-                transition={{ duration: 0.2 }}
-                className="space-y-4 text-sm text-stone-600 pt-4"
+          <div className="grid gap-2">
+            {routeModes.map(({ mode, label, Icon }) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => openDirections(mode)}
+                className="group flex min-h-12 w-full items-center justify-between gap-3 rounded-xl border border-stone-200/70 bg-white/72 px-4 text-left text-sm font-bold text-stone-800 transition-all hover:border-stone-300 hover:bg-white hover:shadow-sm"
               >
-                <div className="flex items-center gap-2 text-stone-900 font-bold">
-                  <Train className="w-4 h-4 text-stone-800" />
-                  <h4>{t.transitTitle}</h4>
-                </div>
-                <p className="leading-relaxed">
-                  {t.transitIntro}
-                </p>
-                <ul className="list-disc pl-5 space-y-2 leading-relaxed">
-                  {(t.transitItems as string[]).map((item) => <li key={item}>{item}</li>)}
-                </ul>
-              </motion.div>
-            )}
+                <span className="flex min-w-0 items-center gap-3">
+                  <Icon className="h-4 w-4 shrink-0 text-stone-600" aria-hidden="true" />
+                  <span>{label}</span>
+                </span>
+                <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.12em] text-stone-400">
+                  {directions.open}
+                  <ExternalLink className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                </span>
+              </button>
+            ))}
+          </div>
 
-            {activeTab === "walk" && (
-              <motion.div
-                key="walk"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 10 }}
-                transition={{ duration: 0.2 }}
-                className="space-y-4 text-sm text-stone-600 pt-4"
-              >
-                <div className="flex items-center gap-2 text-stone-900 font-bold">
-                  <Compass className="w-4 h-4 text-stone-800" />
-                  <h4>{t.walkTitle}</h4>
-                </div>
-                <p className="leading-relaxed">
-                  {t.walkIntro}
-                </p>
-                <ol className="list-decimal pl-5 space-y-2 leading-relaxed">
-                  {(t.walkItems as string[]).map((item) => <li key={item}>{item}</li>)}
-                </ol>
-              </motion.div>
-            )}
-
-            {activeTab === "car" && (
-              <motion.div
-                key="car"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 10 }}
-                transition={{ duration: 0.2 }}
-                className="space-y-4 text-sm text-stone-600 pt-4"
-              >
-                <div className="flex items-center gap-2 text-stone-900 font-bold">
-                  <Car className="w-4 h-4 text-stone-800" />
-                  <h4>{t.carTitle}</h4>
-                </div>
-                <p className="leading-relaxed">
-                  {t.carIntro}
-                </p>
-                <ul className="list-disc pl-5 space-y-2 leading-relaxed">
-                  {(t.carItems as string[]).map((item) => <li key={item}>{item}</li>)}
-                </ul>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {routeStatus !== "idle" && (
+            <p className="text-xs leading-relaxed text-stone-500" role="status">
+              {routeStatus === "locating" ? directions.locating : directions.fallback}
+            </p>
+          )}
         </div>
       </div>
 
@@ -350,8 +325,8 @@ export default function RouteGuide({ language }: { language: Language }) {
       <div className="lg:col-span-7 relative h-[400px] sm:h-[480px] bg-stone-100 rounded-3xl overflow-hidden shadow-sm border border-stone-200/50">
         
         <MapContainer 
-          bounds={currentBounds}
-          zoom={16} 
+          center={mapCenter}
+          zoom={18} 
           scrollWheelZoom={false} 
           className="w-full h-full z-0"
           zoomControl={true}
@@ -362,33 +337,7 @@ export default function RouteGuide({ language }: { language: Language }) {
             url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           />
           
-          <MapViewUpdater bounds={currentBounds} />
-
-          {/* Dynamic Polylines (Using single component to prevent SVG offset bugs during flight animation) */}
-          <Polyline 
-            positions={activeTab === "walk" ? walkRoute : activeTab === "transit" ? transitRoute : []} 
-            color={activeTab === "walk" ? "#212121" : "#3b82f6"} 
-            weight={activeTab === "walk" ? 4 : 5} 
-            dashArray={activeTab === "walk" ? "8, 8" : undefined} 
-            opacity={activeTab === "walk" ? 0.7 : activeTab === "transit" ? 0.8 : 0} 
-          />
-
-          {/* Pins for context */}
-         {activeTab === "transit" && (
-             <Marker position={busStopCoords} icon={routePointIcon}>
-               <Popup className="font-sans font-medium text-xs">{t.busStop}</Popup>
-             </Marker>
-          )}
-          {activeTab === "walk" && (
-             <Marker position={vabaduseCoords} icon={routePointIcon}>
-               <Popup className="font-sans font-medium text-xs">{t.square}</Popup>
-             </Marker>
-          )}
-          {activeTab === "car" && (
-             <Marker position={parkingCoords} icon={routePointIcon}>
-               <Popup className="font-sans font-medium text-xs">{t.parking}</Popup>
-             </Marker>
-          )}
+          <MapViewUpdater center={mapCenter} />
 
           {/* Main Clinic Pin */}
           <Marker position={clinicCoords} icon={customIcon}>
