@@ -3213,6 +3213,12 @@ button {
     gap: 8px;
   }
 
+  .header-actions .language-switch {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   .header-actions > .header-call {
     display: none;
   }
@@ -3237,6 +3243,7 @@ button {
   }
 
   .mobile-site-menu {
+    display: grid;
     position: absolute;
     top: calc(100% + 8px);
     right: 12px;
@@ -3249,10 +3256,19 @@ button {
     background: rgba(247, 250, 252, 0.94);
     box-shadow: 0 20px 45px rgba(32, 33, 36, 0.14);
     backdrop-filter: blur(18px);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px) scale(0.98);
+    transform-origin: top right;
+    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+    visibility: hidden;
   }
 
   .mobile-site-menu.is-open {
-    display: grid;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    visibility: visible;
   }
 
   .mobile-site-menu button,
