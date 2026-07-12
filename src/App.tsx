@@ -1,7 +1,7 @@
 import { Fragment, lazy, Suspense, useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
-import { ChevronLeft, ChevronRight, Mail, MapPin, Phone, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Mail, MapPin, Menu, Phone, X } from "lucide-react";
 
 import { ServiceCard } from "./types";
 
@@ -505,6 +505,7 @@ export default function App() {
   const [introPhase, setIntroPhase] = useState<IntroPhase>("loading");
   const [showHeroNotice, setShowHeroNotice] = useState(false);
   const [isBookingModalOpen, setBookingModalOpen] = useState(false);
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [areStatsVisible, setStatsVisible] = useState(false);
   const statsRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
@@ -600,6 +601,17 @@ export default function App() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isBookingModalOpen]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     const stats = statsRef.current;
@@ -743,7 +755,30 @@ export default function App() {
             ))}
           </div>
           <a className="header-call" href="tel:+37258508890">{t.call}</a>
+          <button
+            className="mobile-menu-toggle"
+            type="button"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-site-menu"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMobileMenuOpen((isOpen) => !isOpen)}
+          >
+            {isMobileMenuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+          </button>
         </div>
+        <nav id="mobile-site-menu" className={`mobile-site-menu ${isMobileMenuOpen ? "is-open" : ""}`} aria-label={t.navLabel}>
+          <button onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setMobileMenuOpen(false); }}>{t.nav.home}</button>
+          <a href="/hinnakiri" onClick={() => setMobileMenuOpen(false)}>{language === "ru" ? "Цены" : language === "fi" ? "Hinnasto" : language === "en" ? "Price list" : "Hinnakiri"}</a>
+          {SHOW_INTRO_SECTIONS && (
+            <>
+              <button onClick={() => { scrollToAbout(); setMobileMenuOpen(false); }}>{t.nav.about}</button>
+              <button onClick={() => { scrollToHeroNotice(); setMobileMenuOpen(false); }}>{t.nav.services}</button>
+              <button onClick={() => { scrollToHeroNotice(); setMobileMenuOpen(false); }}>{t.nav.results}</button>
+            </>
+          )}
+          <button onClick={() => { scrollToContact(); setMobileMenuOpen(false); }}>{t.nav.contacts}</button>
+          <a className="mobile-menu-call" href="tel:+37258508890"><Phone aria-hidden="true" />{t.call}</a>
+        </nav>
       </header>
 
       <div className="development-stage">
