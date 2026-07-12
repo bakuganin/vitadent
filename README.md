@@ -1,6 +1,6 @@
-# Caninus
+# Vitadent
 
-Landing page for Caninus dental clinic.
+Landing page for Vitadent dental clinic.
 
 ## Run Locally
 

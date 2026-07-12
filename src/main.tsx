@@ -6,6 +6,7 @@ import App from './App.tsx';
 import PrivacyPolicy from './pages/PrivacyPolicy.tsx';
 import TermsOfService from './pages/TermsOfService.tsx';
 import CookiePolicy from './pages/CookiePolicy.tsx';
+import PriceList from './pages/PriceList.tsx';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/cookie-policy" element={<CookiePolicy />} />
+        <Route path="/hinnakiri" element={<PriceList />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

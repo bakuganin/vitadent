@@ -11,7 +11,7 @@ const routeCopy = {
     kicker: "Kuidas tulla",
     title: "Mugav asukoht Tallinna kesklinnas",
     intro:
-      "Kliinik Caninus asub aadressil Tatari 6, Tallinn. See on vaid mõne minuti jalutuskäigu kaugusel Vabaduse väljakust.",
+      "Vitadenti kliinik asub aadressil Tatari 6, Tallinn. See on vaid mõne minuti jalutuskäigu kaugusel Vabaduse väljakust.",
     transit: "Transport",
     walk: "Jalgsi",
     car: "Autoga",
@@ -46,7 +46,7 @@ const routeCopy = {
     kicker: "Как добраться",
     title: "Удобное расположение в центре Таллина",
     intro:
-      "Клиника Caninus расположена по адресу Tatari 6, Tallinn. Это всего в нескольких минутах ходьбы от площади Свободы.",
+      "Клиника Vitadent расположена по адресу Tatari 6, Tallinn. Это всего в нескольких минутах ходьбы от площади Свободы.",
     transit: "Транспорт",
     walk: "Пешком",
     car: "На машине",
@@ -81,7 +81,7 @@ const routeCopy = {
     kicker: "Saapuminen",
     title: "Helppo sijainti Tallinnan keskustassa",
     intro:
-      "Caninus-klinikka sijaitsee osoitteessa Tatari 6, Tallinna, vain muutaman minuutin kävelymatkan päässä Vabaduse väljakilta.",
+      "Vitadent-klinikka sijaitsee osoitteessa Tatari 6, Tallinna, vain muutaman minuutin kävelymatkan päässä Vabaduse väljakilta.",
     transit: "Julkinen",
     walk: "Kävellen",
     car: "Autolla",
@@ -116,7 +116,7 @@ const routeCopy = {
     kicker: "How to get here",
     title: "Convenient location in central Tallinn",
     intro:
-      "Caninus clinic is located at Tatari 6, Tallinn, just a few minutes' walk from Freedom Square.",
+      "Vitadent clinic is located at Tatari 6, Tallinn, just a few minutes' walk from Freedom Square.",
     transit: "Transit",
     walk: "Walking",
     car: "By car",
@@ -171,6 +171,27 @@ const routeIntroCopy = {
     ["Opening hours:", " Mon-Thu 8:00 - 15:00, Fri 9:00 - 15:00, Sat by appointment, Sun closed."],
   ],
 } satisfies Record<Language, [string, string][]>;
+
+const vitadentRouteIntro = {
+  et: [["Aadress:", " Haigla tn 6, 20104 Narva."], ["Parkimine:", " Parkimise tingimused palume täpsustada kliinikuga enne visiiti."], ["Vastuvõtuajad:", " Palume broneerida aeg telefoni või e-posti teel."]],
+  ru: [["Адрес:", " Haigla tn 6, 20104 Нарва."], ["Парковка:", " Условия парковки уточняйте у клиники перед визитом."], ["Часы приема:", " Запишитесь на прием по телефону или e-mail."]],
+  fi: [["Osoite:", " Haigla tn 6, 20104 Narva."], ["Pysäköinti:", " Tarkista pysäköintiehdot klinikalta ennen käyntiä."], ["Vastaanottoajat:", " Varaa aika puhelimitse tai sähköpostilla."]],
+  en: [["Address:", " Haigla tn 6, 20104 Narva."], ["Parking:", " Please confirm parking arrangements with the clinic before your visit."], ["Opening hours:", " Book an appointment by phone or email."]],
+} as const;
+
+const vitadentRouteIntroPhone = {
+  et: [["Aadress:", " Haigla tn 6, 20104 Narva."], ["Vastuvõtule:", " Helistage +372 58 508 890."]],
+  ru: [["Адрес:", " Haigla tn 6, 20104 Нарва."], ["Запись:", " Только по телефону +372 58 508 890."]],
+  fi: [["Osoite:", " Haigla tn 6, 20104 Narva."], ["Ajanvaraus:", " Vain puhelimitse +372 58 508 890."]],
+  en: [["Address:", " Haigla tn 6, 20104 Narva."], ["Appointments:", " By phone only: +372 58 508 890."]],
+} as const;
+
+const vitadentLocationCopy = {
+  et: { title: "Vitadent Narvas", center: "Narva", hours: "Vastuvõtt\nkokkuleppel", description: "Hoolitseme teie naeratuse ja hammaste tervise eest, pakkudes kaasaegseid hambaraviteenuseid kogu perele." },
+  ru: { title: "Vitadent в Нарве", center: "Нарва", hours: "Прием\nпо записи", description: "Мы заботимся о вашей улыбке и здоровье зубов, предлагая современные стоматологические услуги для всей семьи." },
+  fi: { title: "Vitadent Narvassa", center: "Narva", hours: "Vastaanotto\najanvarauksella", description: "Huolehdimme hymystäsi ja hampaidesi terveydestä tarjoamalla moderneja hammashoitopalveluja koko perheelle." },
+  en: { title: "Vitadent in Narva", center: "Narva", hours: "By appointment", description: "We care for your smile and dental health with modern dental services for the whole family." },
+} as const;
 
 const directionsCopy = {
   et: {
@@ -233,19 +254,19 @@ function MapViewUpdater({ center }: { center: L.LatLngExpression }) {
 }
 
 export default function RouteGuide({ language }: { language: Language }) {
-  const t = routeCopy[language];
-  const routeIntro = routeIntroCopy[language];
+  const t = { ...routeCopy[language], ...vitadentLocationCopy[language] };
+  const routeIntro = vitadentRouteIntroPhone[language];
   const directions = directionsCopy[language];
   const [routeStatus, setRouteStatus] = useState<"idle" | "locating" | "fallback">("idle");
 
-  // Accurate Coordinates following Tallinn streets
-  const clinicCoords: [number, number] = [59.43178, 24.74645]; // Tatari 6
+  // Coordinates from the official Vitadent contact-page map embed.
+  const clinicCoords: [number, number] = [59.363066708319025, 28.190704977819234];
   const mapCenter = clinicCoords;
 
   const buildDirectionsUrl = (mode: TravelMode, origin?: GeolocationCoordinates) => {
     const params = new URLSearchParams({
       api: "1",
-      destination: `${clinicCoords[0]},${clinicCoords[1]}`,
+      destination: "Haigla tn 6, 20104 Narva, Estonia",
       travelmode: mode,
     });
 
@@ -301,6 +322,7 @@ export default function RouteGuide({ language }: { language: Language }) {
           <h3 className="text-3xl font-extrabold text-stone-900 tracking-tight leading-none">
             {t.title}
           </h3>
+          <p className="max-w-sm text-sm leading-relaxed text-stone-600">{t.description}</p>
           <div className="space-y-2 pb-4 text-sm leading-relaxed text-stone-500">
             {routeIntro.map(([label, text]) => (
               <p key={label}>
@@ -370,7 +392,7 @@ export default function RouteGuide({ language }: { language: Language }) {
 
           {/* Main Clinic Pin */}
           <Marker position={clinicCoords} icon={customIcon}>
-            <Popup className="font-sans font-bold">CANINUS<br/><span className="font-normal text-stone-500">Tatari 6</span></Popup>
+            <Popup className="font-sans font-bold">VITADENT<br/><span className="font-normal text-stone-500">Haigla tn 6, Narva</span></Popup>
           </Marker>
         </MapContainer>
 

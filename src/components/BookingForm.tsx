@@ -117,7 +117,7 @@ const bookingCopy = {
     painIntensityLabel: "Valu tugevus:",
     problemLabel: "Kaebuse kirjeldus:",
     note:
-      "Dr. Jevgeni Abramovits võtab teiega ühendust, et kinnitada täpne vastuvõtuaeg. Täname usalduse eest Caninuse kliiniku vastu.",
+      "Vitadenti meeskond võtab teiega ühendust, et kinnitada täpne vastuvõtuaeg. Täname usalduse eest Vitadenti kliiniku vastu.",
     reset: "Broneeri veel kord",
     steps: {
       contacts: {
@@ -202,7 +202,7 @@ const bookingCopy = {
     painIntensityLabel: "Интенсивность боли:",
     problemLabel: "Описание жалобы:",
     note:
-      "Д-р Евгений Абрамовитс свяжется с вами по указанному телефону в ближайшее время для подтверждения точного времени приема. Благодарим за доверие к клинике Caninus!",
+      "Команда Vitadent свяжется с вами по указанному телефону в ближайшее время для подтверждения точного времени приема. Благодарим за доверие к клинике Vitadent!",
     reset: "Записаться еще раз",
     steps: {
       contacts: {
@@ -280,7 +280,7 @@ const bookingCopy = {
     painIntensityLabel: "Kivun voimakkuus:",
     problemLabel: "Lisäkuvaus:",
     note:
-      "Dr. Jevgeni Abramovits ottaa teihin yhteyttä vahvistaakseen tarkan vastaanottoajan. Kiitos luottamuksesta Caninus-klinikkaan.",
+      "Vitadentin tiimi ottaa teihin yhteyttä vahvistaakseen tarkan vastaanottoajan. Kiitos luottamuksesta Vitadent-klinikkaan.",
     reset: "Varaa uudelleen",
     steps: {
       contacts: {
@@ -358,7 +358,7 @@ const bookingCopy = {
     painIntensityLabel: "Pain intensity:",
     problemLabel: "Additional description:",
     note:
-      "Dr. Jevgeni Abramovits will contact you to confirm the exact appointment time. Thank you for trusting Caninus clinic.",
+      "The Vitadent team will contact you to confirm the exact appointment time. Thank you for trusting Vitadent clinic.",
     reset: "Book again",
     steps: {
       contacts: {
@@ -622,7 +622,7 @@ export default function BookingForm({ language }: BookingFormProps) {
                     <StepIcon />
                   </span>
                   <div>
-                    <span className="booking-step-kicker">Caninus Hambaravi</span>
+                    <span className="booking-step-kicker">Vitadent Hambaravi</span>
                     <h4>{currentStep.title}</h4>
                     <p>{currentStep.subtitle}</p>
                   </div>

@@ -110,7 +110,7 @@ function renderBookingEmail({ fullName, phone, previousVisit, visitGoals, concer
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
               <tr>
                 <td style="vertical-align:middle;">
-                  <div style="font-family:Georgia,'Times New Roman',serif;color:#202124;font-size:33px;line-height:.88;letter-spacing:.18em;">Caninus</div>
+                  <div style="font-family:Georgia,'Times New Roman',serif;color:#202124;font-size:33px;line-height:.88;letter-spacing:.18em;">Vitadent</div>
                   <div style="margin-top:7px;color:#202124;font-size:11px;letter-spacing:.34em;">Hambaravi</div>
                 </td>
                 <td style="vertical-align:middle;text-align:right;">
@@ -147,7 +147,7 @@ function renderBookingEmail({ fullName, phone, previousVisit, visitGoals, concer
           </div>
 
           <div style="padding:15px 25px 20px;background:#edf3f8;color:#7f8f9c;font-size:12px;border-top:1px solid #d7e0e8;">
-            Sent by Caninus website
+            Sent by Vitadent website
           </div>
         </div>
       </div>
@@ -177,10 +177,10 @@ app.post("/api/contact", async (req, res) => {
 
   const resend = new Resend(process.env.RESEND_API_KEY);
   const { data, error } = await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL || "no-reply@caninus.ee",
-    to: process.env.CONTACT_EMAIL || "caninushambakliinik@gmail.com",
+    from: process.env.RESEND_FROM_EMAIL || "no-reply@vitadent.ee",
+    to: process.env.CONTACT_EMAIL || "infovitadent24@gmail.com",
     cc: process.env.CONTACT_CC_EMAIL || "jegorbakunin@gmail.com",
-    subject: `Caninus consultation request from ${fullName}`,
+    subject: `Vitadent consultation request from ${fullName}`,
     html: renderBookingEmail({ fullName, phone, previousVisit, visitGoals, concerns, painFrequency, painIntensity, problem }),
   });
 
@@ -209,7 +209,7 @@ if (isProduction) {
 
 function listenOnAvailablePort(candidatePort, attempts = 0) {
   const server = app.listen(candidatePort, "0.0.0.0", () => {
-    console.log(`Caninus server running at http://localhost:${candidatePort}`);
+    console.log(`Vitadent server running at http://localhost:${candidatePort}`);
   });
 
   server.on("error", (error) => {

@@ -5,7 +5,7 @@ const documents = {
     type: "terms",
     eyebrow: "Teenuse tingimused",
     title: "Teenustingimused",
-    lead: "Need tingimused kirjeldavad, kuidas toimub CANINUS HAMBAKLIINIK OÜ veebilehe kasutamine, päringu saatmine ja visiidi kokkuleppimine.",
+    lead: "Need tingimused kirjeldavad, kuidas toimub VITADENT OÜ veebilehe kasutamine, päringu saatmine ja visiidi kokkuleppimine.",
     updated: "Kehtib alates 2. juunist 2026. Viimati uuendatud 2. juunil 2026.",
     sections: [
       {
@@ -58,7 +58,7 @@ const documents = {
     type: "terms",
     eyebrow: "Условия сервиса",
     title: "Условия обслуживания",
-    lead: "Эти условия описывают использование сайта CANINUS HAMBAKLIINIK OÜ, отправку заявки и согласование визита в клинику.",
+    lead: "Эти условия описывают использование сайта VITADENT OÜ, отправку заявки и согласование визита в клинику.",
     updated: "Действует с 2 июня 2026 года. Последнее обновление: 2 июня 2026 года.",
     sections: [
       {

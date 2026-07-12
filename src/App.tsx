@@ -1,7 +1,7 @@
 import { Fragment, lazy, Suspense, useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
-import { Calendar, ChevronLeft, ChevronRight, Mail, MapPin, Phone, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Mail, MapPin, Phone, X } from "lucide-react";
 
 import { ServiceCard } from "./types";
 
@@ -10,7 +10,7 @@ const RouteGuide = lazy(() => import("./components/RouteGuide"));
 
 type Language = "et" | "ru" | "fi" | "en";
 type IntroPhase = "loading" | "split" | "revealing" | "done";
-const LANGUAGE_STORAGE_KEY = "caninus-language";
+const LANGUAGE_STORAGE_KEY = "vitadent-language";
 const SHOW_INTRO_SECTIONS = false;
 
 function ToothIcon({ className = "" }: { className?: string }) {
@@ -50,7 +50,7 @@ const copy = {
       results: "Tulemused",
       contacts: "Kontaktid",
     },
-    location: "Tallinn, Tatari 6",
+    location: "Narva, Haigla tn 6",
     call: "Helista",
     languageLabel: "Keel",
     languageEt: "Eesti",
@@ -58,7 +58,7 @@ const copy = {
     languageFi: "Soome",
     languageEn: "Inglise",
     hero: {
-      eyebrow: "Caninus hambaravi",
+      eyebrow: "Vitadent hambaravi",
       line1: "Innovaatiline",
       strong: "hammaste taastamise",
       middle: "",
@@ -73,7 +73,7 @@ const copy = {
       smileLine: "Naeratuse",
       patients:
         "Patsiendid keerukate hambaravi vajadustega on saanud diagnostika, personaalse raviplaani ja mugavuse tagasi.",
-      statsLabel: "Caninuse kogemus",
+      statsLabel: "Vitadenti kogemus",
       downLabel: "Liigu kliiniku statistika juurde",
       aboutLink: "Kliinikust",
     },
@@ -87,7 +87,7 @@ const copy = {
       clinic: "kliinik",
       accent: "Teie naeratuse",
       line3: "partner",
-      copy: "Caninuses saate rohkem kui ravi: saate tähelepaneliku partneri oma suu tervise ja kindla naeratuse jaoks.",
+      copy: "Vitadentis saate rohkem kui ravi: saate tähelepaneliku partneri oma suu tervise ja kindla naeratuse jaoks.",
       prev: "Eelmine kaart",
       next: "Järgmine kaart",
       cardsLabel: "Kliiniku eelised",
@@ -123,11 +123,11 @@ const copy = {
       phone: "Telefon",
       email: "E-post",
       address: "Kliiniku aadress",
-      addressValue: "Tatari 6, Tallinn, Eesti",
+      addressValue: "Haigla tn 6, 20104 Narva, Eesti",
     },
     footer: {
-      brand: "Caninus hambaravi",
-      legal: "Reg. nr: 14044544 · Tatari 6, Tallinn, Eesti",
+      brand: "Vitadent hambaravi",
+      legal: "Reg. nr: 11292810 · Haigla tn 6, 20104 Narva, Eesti",
       privacy: "Privaatsuspoliitika",
       terms: "Teenustingimused",
       cookie: "Cookie",
@@ -154,7 +154,7 @@ const copy = {
       results: "Результаты",
       contacts: "Контакты",
     },
-    location: "Таллинн, Tatari 6",
+    location: "Нарва, Haigla tn 6",
     call: "Позвонить",
     languageLabel: "Язык",
     languageEt: "Эстонский",
@@ -162,7 +162,7 @@ const copy = {
     languageFi: "Финский",
     languageEn: "Английский",
     hero: {
-      eyebrow: "Стоматология Caninus",
+      eyebrow: "Стоматология Vitadent",
       line1: "Инновационная",
       strong: "реставрация",
       middle: "зубов",
@@ -177,7 +177,7 @@ const copy = {
       smileLine: "Улыбки",
       patients:
         "Пациентов с комплексными стоматологическими задачами прошли диагностику, получили персональный план лечения и вернули комфорт при жевании.",
-      statsLabel: "Опыт Caninus",
+      statsLabel: "Опыт Vitadent",
       downLabel: "Перейти к статистике клиники",
       aboutLink: "О нас",
     },
@@ -191,7 +191,7 @@ const copy = {
       clinic: "клиника",
       accent: "Ваш партнер",
       line3: "улыбки",
-      copy: "В Caninus вы получаете не просто лечение, а внимательного партнера в здоровье и уверенности вашей улыбки.",
+      copy: "В Vitadent вы получаете не просто лечение, а внимательного партнера в здоровье и уверенности вашей улыбки.",
       prev: "Предыдущая карточка",
       next: "Следующая карточка",
       cardsLabel: "Преимущества клиники",
@@ -227,11 +227,11 @@ const copy = {
       phone: "Телефон",
       email: "Электронная почта",
       address: "Адрес клиники",
-      addressValue: "Tatari 6, Таллинн, Эстония",
+      addressValue: "Haigla tn 6, 20104 Нарва, Эстония",
     },
     footer: {
-      brand: "Стоматология Caninus",
-      legal: "Рег. номер: 14044544 · Tatari 6, Tallinn, Эстония",
+      brand: "Стоматология Vitadent",
+      legal: "Рег. номер: 11292810 · Haigla tn 6, 20104 Нарва, Эстония",
       privacy: "Политика конфиденциальности",
       terms: "Условия обслуживания",
       cookie: "Cookie",
@@ -258,7 +258,7 @@ const copy = {
       results: "Tulokset",
       contacts: "Yhteystiedot",
     },
-    location: "Tallinna, Tatari 6",
+    location: "Narva, Haigla tn 6",
     call: "Soita",
     languageLabel: "Kieli",
     languageEt: "Viro",
@@ -266,7 +266,7 @@ const copy = {
     languageFi: "Suomi",
     languageEn: "Englanti",
     hero: {
-      eyebrow: "Caninus hammashoito",
+      eyebrow: "Vitadent hammashoito",
       line1: "Innovatiivinen",
       strong: "hampaiden palautus",
       middle: "",
@@ -281,7 +281,7 @@ const copy = {
       smileLine: "hymy",
       patients:
         "Potilaat, joilla on vaativia hammashoidon tarpeita, saavat diagnostiikan, yksilöllisen hoitosuunnitelman ja mukavuuden takaisin.",
-      statsLabel: "Caninus kokemus",
+      statsLabel: "Vitadent kokemus",
       downLabel: "Siirry klinikan tilastoihin",
       aboutLink: "Klinikasta",
     },
@@ -331,11 +331,11 @@ const copy = {
       phone: "Puhelin",
       email: "Sähköposti",
       address: "Klinikan osoite",
-      addressValue: "Tatari 6, Tallinna, Viro",
+      addressValue: "Haigla tn 6, 20104 Narva, Viro",
     },
     footer: {
-      brand: "Caninus hammashoito",
-      legal: "Rek. nro: 14044544 · Tatari 6, Tallinna, Viro",
+      brand: "Vitadent hammashoito",
+      legal: "Rek. nro: 11292810 · Haigla tn 6, 20104 Narva, Viro",
       privacy: "Tietosuojakäytäntö",
       terms: "Palveluehdot",
       cookie: "Cookie",
@@ -362,7 +362,7 @@ const copy = {
       results: "Results",
       contacts: "Contacts",
     },
-    location: "Tallinn, Tatari 6",
+    location: "Narva, Haigla tn 6",
     call: "Call",
     languageLabel: "Language",
     languageEt: "Estonian",
@@ -370,7 +370,7 @@ const copy = {
     languageFi: "Finnish",
     languageEn: "English",
     hero: {
-      eyebrow: "Caninus dental care",
+      eyebrow: "Vitadent dental care",
       line1: "Innovative",
       strong: "tooth restoration",
       middle: "",
@@ -385,7 +385,7 @@ const copy = {
       smileLine: "smile",
       patients:
         "Patients with complex dental needs receive diagnostics, a personal treatment plan and comfort back.",
-      statsLabel: "Caninus experience",
+      statsLabel: "Vitadent experience",
       downLabel: "Go to clinic statistics",
       aboutLink: "About us",
     },
@@ -399,7 +399,7 @@ const copy = {
       clinic: "a clinic",
       accent: "Your smile",
       line3: "partner",
-      copy: "At Caninus you receive more than treatment: you get an attentive partner for your oral health and confident smile.",
+      copy: "At Vitadent you receive more than treatment: you get an attentive partner for your oral health and confident smile.",
       prev: "Previous card",
       next: "Next card",
       cardsLabel: "Clinic advantages",
@@ -435,11 +435,11 @@ const copy = {
       phone: "Phone",
       email: "Email",
       address: "Clinic address",
-      addressValue: "Tatari 6, Tallinn, Estonia",
+      addressValue: "Haigla tn 6, 20104 Narva, Estonia",
     },
     footer: {
-      brand: "Caninus dental clinic",
-      legal: "Reg. no: 14044544 · Tatari 6, Tallinn, Estonia",
+      brand: "Vitadent dental clinic",
+      legal: "Reg. no: 11292810 · Haigla tn 6, 20104 Narva, Estonia",
       privacy: "Privacy policy",
       terms: "Terms of service",
       cookie: "Cookie",
@@ -696,12 +696,13 @@ export default function App() {
       )}
 
       <header className="site-header">
-        <button className="brand-mark" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Caninus Hambaravi">
-          <img className="brand-logo" src="/caninus-wordmark-clean.png" alt="" aria-hidden="true" />
+        <button className="brand-mark" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Vitadent Hambaravi">
+          <img className="brand-logo" src="/vitadent-logo.png" alt="" aria-hidden="true" />
         </button>
 
         <nav className="site-nav" aria-label={t.navLabel}>
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>{t.nav.home}</button>
+          <a href="/hinnakiri">{language === "ru" ? "Цены" : language === "fi" ? "Hinnasto" : language === "en" ? "Price list" : "Hinnakiri"}</a>
           {SHOW_INTRO_SECTIONS && (
             <>
               <button onClick={scrollToAbout}>{t.nav.about}</button>
@@ -741,7 +742,7 @@ export default function App() {
               </button>
             ))}
           </div>
-          <a className="header-call" href="tel:+37256155030">{t.call}</a>
+          <a className="header-call" href="tel:+37258508890">{t.call}</a>
         </div>
       </header>
 
@@ -754,24 +755,20 @@ export default function App() {
                   <ToothIcon className="w-8 h-8" />
                 </div>
 
-                <span className="development-modal-kicker">Caninus hambakliinik</span>
+                <span className="development-modal-kicker">Vitadent hambakliinik</span>
                 <h2 id="hero-development-title">{t.modal.title}</h2>
                 <p>{t.modal.body}</p>
 
                 <div className="hero-development-actions">
-                  <a className="development-modal-phone hero-development-phone" href="tel:+37256155030">
+                  <a className="development-modal-phone hero-development-phone" href="tel:+37258508890">
                     <Phone className="w-4 h-4 stroke-[1.8]" aria-hidden="true" />
-                    <span>+372 56 155 030</span>
+                    <span>+372 58 508 890</span>
                   </a>
 
-                  <button
-                    type="button"
-                    className="development-modal-action hero-development-action"
-                    onClick={openBookingModal}
-                  >
-                    <Calendar className="w-4 h-4 stroke-[1.8]" aria-hidden="true" />
-                    {t.modal.request}
-                  </button>
+                  <a className="development-modal-action hero-development-action" href="tel:+37258508890">
+                    <Phone className="w-4 h-4 stroke-[1.8]" aria-hidden="true" />
+                    {t.call}
+                  </a>
                 </div>
               </div>
             </div>
@@ -898,26 +895,22 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="contact-doctors">
-                <div className="contact-card doctor-card">
-                  <div className="doctor-avatar">
-                    <img src="/jevgeni abramovits.png" alt="dr. Jevgeni Abramovits" />
-                  </div>
-                  <div>
-                    <span>{t.contact.doctorLabel}</span>
-                    <strong>dr. Jevgeni Abramovits</strong>
-                  </div>
+              <div className="contact-doctors is-compact">
+                <div className="contact-card doctor-card is-lead">
+                  <div className="doctor-avatar"><img src="/jevgeni abramovits.png" alt="dr. Jevgeni Abramovits" /></div>
+                  <div><span>{t.contact.doctorLabel}</span><strong>dr. Jevgeni Abramovits</strong></div>
                 </div>
-
-                <div className="contact-card doctor-card">
-                  <div className="doctor-avatar doctor-avatar-fallback" aria-hidden="true">
-                    <span>SH</span>
+                {[
+                  ["УЛ", "Ульяна Львова"],
+                  ["ЭА", "Эвелин Антипенкова"],
+                  ["А", "Анжелика"],
+                  ["А", "Алина"],
+                ].map(([initials, name]) => (
+                  <div className="contact-card doctor-card" key={name}>
+                    <div className="doctor-avatar doctor-avatar-fallback" aria-hidden="true"><span>{initials}</span></div>
+                    <div><span>{t.contact.doctorLabel}</span><strong>{name}</strong></div>
                   </div>
-                  <div>
-                    <span>{t.contact.doctorLabel}</span>
-                    <strong>dr. Siiri Haugas</strong>
-                  </div>
-                </div>
+                ))}
               </div>
 
               <div className="contact-card contact-list">
@@ -925,14 +918,14 @@ export default function App() {
                   <Phone className="w-4 h-4" />
                   <p>
                     <span>{t.contact.phone}</span>
-                    <a href="tel:+37256155030">+372 56 155 030</a>
+                    <a href="tel:+37258508890">+372 58 508 890</a>
                   </p>
                 </div>
                 <div>
                   <Mail className="w-4 h-4" />
                   <p>
                     <span>{t.contact.email}</span>
-                    <a href="mailto:caninushambakliinik@gmail.com">caninushambakliinik@gmail.com</a>
+                    <a href="mailto:infovitadent24@gmail.com">infovitadent24@gmail.com</a>
                   </p>
                 </div>
                 <div>
@@ -945,10 +938,12 @@ export default function App() {
               </div>
             </div>
 
-            <div className="booking-panel">
-              <Suspense fallback={<div className="booking-loading-surface" aria-hidden="true" />}>
-                <BookingForm language={language} />
-              </Suspense>
+            <div className="booking-panel booking-phone-panel">
+              <Phone aria-hidden="true" />
+              <span>{t.contact.eyebrow}</span>
+              <strong>+372 58 508 890</strong>
+              <p>{language === "ru" ? "Запись на приём доступна только по телефону." : language === "et" ? "Vastuvõtule saab praegu broneerida ainult telefoni teel." : language === "fi" ? "Ajanvaraus on tällä hetkellä mahdollista vain puhelimitse." : "Appointments are currently available by phone only."}</p>
+              <a href="tel:+37258508890">{t.call}</a>
             </div>
           </div>
         </section>
@@ -961,13 +956,13 @@ export default function App() {
 
         <footer className="footer-section">
           <div className="footer-brand">
-            <img className="footer-logo" src="/caninus-wordmark-clean.png" alt="Caninus Hambaravi" />
+            <img className="footer-logo" src="/vitadent-logo.png" alt="Vitadent Hambaravi" />
           </div>
 
-          <div className="footer-wordmark">CANINUS</div>
+          <div className="footer-wordmark">VITADENT</div>
 
           <div className="footer-legal">
-            <p>&copy; 2026 CANINUS HAMBAKLIINIK OÜ · {t.footer.legal}</p>
+            <p>&copy; 2026 VITADENT OÜ · {t.footer.legal}</p>
             <div>
               <a href="/privacy-policy">{t.footer.privacy}</a>
               <a href="/terms-of-service">{t.footer.terms}</a>

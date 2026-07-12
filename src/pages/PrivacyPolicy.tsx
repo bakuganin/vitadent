@@ -5,14 +5,14 @@ const documents = {
     type: "privacy",
     eyebrow: "Juriidiline info",
     title: "Privaatsuspoliitika",
-    lead: "Selgitame, milliseid isikuandmeid CANINUS HAMBAKLIINIK OÜ kogub, miks neid kasutatakse ja kuidas patsient saab oma õigusi kasutada.",
+    lead: "Selgitame, milliseid isikuandmeid VITADENT OÜ kogub, miks neid kasutatakse ja kuidas patsient saab oma õigusi kasutada.",
     updated: "Kehtib alates 2. juunist 2026. Viimati uuendatud 2. juunil 2026.",
     sections: [
       {
         title: "Vastutav töötleja",
         body: [
-          "Isikuandmete vastutav töötleja on CANINUS HAMBAKLIINIK OÜ, registrikood 14044544, aadress Tatari 6, Tallinn, Eesti.",
-          "Küsimuste korral saab meiega ühendust võtta e-posti aadressil caninushambakliinik@gmail.com või telefonil +372 56 155 030.",
+          "Isikuandmete vastutav töötleja on VITADENT OÜ, registrikood 11292810, aadress Haigla tn 6, 20104 Narva, Eesti.",
+          "Küsimuste korral saab meiega ühendust võtta e-posti aadressil infovitadent24@gmail.com või telefonil +372 58 508 890.",
         ],
       },
       {
@@ -60,14 +60,14 @@ const documents = {
     type: "privacy",
     eyebrow: "Юридическая информация",
     title: "Политика конфиденциальности",
-    lead: "Объясняем, какие персональные данные обрабатывает CANINUS HAMBAKLIINIK OÜ, зачем они нужны и как пациент может воспользоваться своими правами.",
+    lead: "Объясняем, какие персональные данные обрабатывает VITADENT OÜ, зачем они нужны и как пациент может воспользоваться своими правами.",
     updated: "Действует с 2 июня 2026 года. Последнее обновление: 2 июня 2026 года.",
     sections: [
       {
         title: "Контролер данных",
         body: [
-          "Контролером персональных данных является CANINUS HAMBAKLIINIK OÜ, регистрационный номер 14044544, адрес Tatari 6, Таллинн, Эстония.",
-          "По вопросам обработки данных можно написать на caninushambakliinik@gmail.com или позвонить по номеру +372 56 155 030.",
+          "Контролером персональных данных является VITADENT OÜ, регистрационный номер 11292810, адрес Haigla tn 6, 20104 Нарва, Эстония.",
+          "По вопросам обработки данных можно написать на infovitadent24@gmail.com или позвонить по номеру +372 58 508 890.",
         ],
       },
       {

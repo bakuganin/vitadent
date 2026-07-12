@@ -5,7 +5,7 @@ const documents = {
     type: "cookie",
     eyebrow: "Veebilehe eelistused",
     title: "Cookie poliitika",
-    lead: "Selgitame, kuidas CANINUS HAMBAKLIINIK OÜ kasutab küpsiseid ja sarnaseid tehnoloogiaid veebilehe toimimiseks ning kasutuskogemuse parandamiseks.",
+    lead: "Selgitame, kuidas VITADENT OÜ kasutab küpsiseid ja sarnaseid tehnoloogiaid veebilehe toimimiseks ning kasutuskogemuse parandamiseks.",
     updated: "Kehtib alates 2. juunist 2026. Viimati uuendatud 2. juunil 2026.",
     sections: [
       {
@@ -46,7 +46,7 @@ const documents = {
       {
         title: "Kontakt",
         body: [
-          "Cookie poliitika või privaatsusega seotud küsimuste korral võtke ühendust aadressil caninushambakliinik@gmail.com.",
+          "Cookie poliitika või privaatsusega seotud küsimuste korral võtke ühendust aadressil infovitadent24@gmail.com.",
         ],
       },
     ],
@@ -55,7 +55,7 @@ const documents = {
     type: "cookie",
     eyebrow: "Настройки сайта",
     title: "Политика Cookie",
-    lead: "Объясняем, как CANINUS HAMBAKLIINIK OÜ использует cookie и похожие технологии для работы сайта и улучшения пользовательского опыта.",
+    lead: "Объясняем, как VITADENT OÜ использует cookie и похожие технологии для работы сайта и улучшения пользовательского опыта.",
     updated: "Действует с 2 июня 2026 года. Последнее обновление: 2 июня 2026 года.",
     sections: [
       {
@@ -96,7 +96,7 @@ const documents = {
       {
         title: "Контакт",
         body: [
-          "По вопросам политики Cookie или конфиденциальности можно написать на caninushambakliinik@gmail.com.",
+          "По вопросам политики Cookie или конфиденциальности можно написать на infovitadent24@gmail.com.",
         ],
       },
     ],

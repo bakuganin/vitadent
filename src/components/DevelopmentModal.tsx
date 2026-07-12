@@ -55,7 +55,7 @@ export default function DevelopmentModal({ isOpen, onClose, sectionName = "Ра�
             {/* Text description */}
             <div className="text-center space-y-3">
               <span className="text-[10px] font-sans tracking-[0.2em] uppercase text-stone-400">
-                Caninus Hambakliinik
+                Vitadent Hambakliinik
               </span>
               <h3 className="text-xl font-bold text-stone-900 tracking-tight">
                 Раздел «{sectionName}» в разработке

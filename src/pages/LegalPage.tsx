@@ -32,7 +32,7 @@ type LegalPageProps = {
   documents: Partial<Record<Language, LegalCopy>> & Record<"et", LegalCopy>;
 };
 
-const LANGUAGE_STORAGE_KEY = "caninus-language";
+const LANGUAGE_STORAGE_KEY = "vitadent-language";
 
 const chromeCopy = {
   et: {
@@ -43,9 +43,9 @@ const chromeCopy = {
     terms: "Teenustingimused",
     cookie: "Cookie",
     contacts: "Kontakt",
-    company: "CANINUS HAMBAKLIINIK OÜ",
-    registry: "Reg. nr: 14044544",
-    address: "Tatari 6, Tallinn, Eesti",
+    company: "VITADENT OÜ",
+    registry: "Reg. nr: 11292810",
+    address: "Haigla tn 6, 20104 Narva, Eesti",
   },
   ru: {
     back: "На главную",
@@ -55,9 +55,9 @@ const chromeCopy = {
     terms: "Условия обслуживания",
     cookie: "Cookie",
     contacts: "Контакт",
-    company: "CANINUS HAMBAKLIINIK OÜ",
-    registry: "Рег. номер: 14044544",
-    address: "Tatari 6, Таллинн, Эстония",
+    company: "VITADENT OÜ",
+    registry: "Рег. номер: 11292810",
+    address: "Haigla tn 6, 20104 Нарва, Эстония",
   },
   fi: {
     back: "Etusivulle",
@@ -67,9 +67,9 @@ const chromeCopy = {
     terms: "Palveluehdot",
     cookie: "Cookie",
     contacts: "Yhteystiedot",
-    company: "CANINUS HAMBAKLIINIK OÜ",
-    registry: "Rek. nro: 14044544",
-    address: "Tatari 6, Tallinna, Viro",
+    company: "VITADENT OÜ",
+    registry: "Rek. nro: 11292810",
+    address: "Haigla tn 6, 20104 Narva, Viro",
   },
   en: {
     back: "Home",
@@ -79,9 +79,9 @@ const chromeCopy = {
     terms: "Terms of service",
     cookie: "Cookie",
     contacts: "Contact",
-    company: "CANINUS HAMBAKLIINIK OÜ",
-    registry: "Reg. no: 14044544",
-    address: "Tatari 6, Tallinn, Estonia",
+    company: "VITADENT OÜ",
+    registry: "Reg. no: 11292810",
+    address: "Haigla tn 6, 20104 Narva, Estonia",
   },
 } satisfies Record<Language, Record<string, string>>;
 
@@ -154,11 +154,11 @@ export default function LegalPage({ documents }: LegalPageProps) {
           </div>
           <div>
             <Phone aria-hidden="true" />
-            <a href="tel:+37256155030">+372 56 155 030</a>
+            <a href="tel:+37258508890">+372 58 508 890</a>
           </div>
           <div>
             <Mail aria-hidden="true" />
-            <a href="mailto:caninushambakliinik@gmail.com">caninushambakliinik@gmail.com</a>
+            <a href="mailto:infovitadent24@gmail.com">infovitadent24@gmail.com</a>
           </div>
         </section>
 
