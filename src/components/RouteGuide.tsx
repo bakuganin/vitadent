@@ -39,7 +39,7 @@ const routeCopy = {
     busStop: "Vabaduse väljaku peatus",
     square: "Vabaduse väljak",
     parking: "EP18 parkla",
-    hours: "E-R: 8:00 - 17:00",
+    hours: "E-N: 8:00 - 15:00\nR: 9:00 - 15:00\nL: kokkuleppel\nP: suletud",
     center: "Tallinna kesklinn",
   },
   ru: {
@@ -74,7 +74,7 @@ const routeCopy = {
     busStop: "Остановка Vabaduse väljak",
     square: "Площадь Свободы",
     parking: "Парковка EP18",
-    hours: "Пн-Пт: 8:00 - 17:00",
+    hours: "Пн-Чт: 8:00 - 15:00\nПт: 9:00 - 15:00\nСб: по договоренности\nВс: закрыто",
     center: "Таллинн Центр",
   },
   fi: {
@@ -109,7 +109,7 @@ const routeCopy = {
     busStop: "Vabaduse väljakin pysäkki",
     square: "Vabaduse väljak",
     parking: "EP18 pysäköinti",
-    hours: "Ma-Pe: 8:00 - 17:00",
+    hours: "Ma-To: 8:00 - 15:00\nPe: 9:00 - 15:00\nLa: sopimuksen mukaan\nSu: suljettu",
     center: "Tallinnan keskusta",
   },
   en: {
@@ -144,7 +144,7 @@ const routeCopy = {
     busStop: "Vabaduse väljak stop",
     square: "Freedom Square",
     parking: "EP18 parking",
-    hours: "Mon-Fri: 8:00 - 17:00",
+    hours: "Mon-Thu: 8:00 - 15:00\nFri: 9:00 - 15:00\nSat: by appointment\nSun: closed",
     center: "Tallinn city center",
   },
 } satisfies Record<Language, Record<string, string | string[]>>;
@@ -267,9 +267,9 @@ export default function RouteGuide({ language }: { language: Language }) {
   ];
 
   return (
-    <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+    <div className="w-full grid grid-cols-1 gap-8 lg:gap-10">
       {/* Route Selector Info (Left) */}
-      <div className="lg:col-span-5 flex flex-col justify-start space-y-6">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,0.82fr)_minmax(420px,0.9fr)] lg:items-start">
         <div className="space-y-4">
           <span className="text-[10px] font-sans tracking-[0.2em] uppercase text-stone-400 font-bold">
             {t.kicker}
@@ -332,8 +332,8 @@ export default function RouteGuide({ language }: { language: Language }) {
         </div>
       </div>
 
-      {/* Interactive Map Showcase (Right) */}
-      <div className="lg:col-span-7 relative h-[400px] sm:h-[480px] bg-stone-100 rounded-3xl overflow-hidden shadow-sm border border-stone-200/50">
+      {/* Interactive Map Showcase */}
+      <div className="relative h-[400px] sm:h-[500px] lg:h-[560px] bg-stone-100 rounded-3xl overflow-hidden shadow-sm border border-stone-200/50">
         
         <MapContainer 
           center={mapCenter}
@@ -357,9 +357,9 @@ export default function RouteGuide({ language }: { language: Language }) {
         </MapContainer>
 
         {/* Floating Action Controls */}
-        <div className="absolute bottom-4 right-4 bg-white py-2.5 px-4 rounded-xl shadow-lg border border-stone-100 flex items-center gap-2 z-[400] pointer-events-none">
+        <div className="absolute bottom-4 right-4 bg-white py-2.5 px-4 rounded-xl shadow-lg border border-stone-100 flex items-start gap-2 z-[400] pointer-events-none">
           <Clock className="w-4 h-4 text-[#8DA2B3]" />
-          <span className="text-xs font-sans font-bold text-stone-800 tracking-wide">
+          <span className="whitespace-pre-line text-left text-xs font-sans font-bold leading-tight text-stone-800 tracking-wide">
             {t.hours}
           </span>
         </div>
