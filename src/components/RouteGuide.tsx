@@ -236,10 +236,10 @@ const directionsCopy = {
   },
 } satisfies Record<Language, Record<string, string>>;
 
-// Custom tooth marker icon
+// Custom Vitadent marker icon
 const customIcon = new L.DivIcon({
   className: "custom-leaflet-marker",
-  html: `<div style="width: 30px; height: 30px; background-color: #212121; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.3);"><div style="transform: rotate(45deg); color: white; font-weight: bold; font-size: 14px;">C</div></div>`,
+  html: `<div style="width: 30px; height: 30px; background-color: #212121; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.3);"><div style="transform: rotate(45deg); color: white; font-weight: bold; font-size: 14px;">V</div></div>`,
   iconSize: [30, 30],
   iconAnchor: [15, 30],
   popupAnchor: [0, -30],
@@ -259,8 +259,8 @@ export default function RouteGuide({ language }: { language: Language }) {
   const directions = directionsCopy[language];
   const [routeStatus, setRouteStatus] = useState<"idle" | "locating" | "fallback">("idle");
 
-  // Coordinates from the official Vitadent contact-page map embed.
-  const clinicCoords: [number, number] = [59.363066708319025, 28.190704977819234];
+  // Haigla tn 6, Narva — the Vitadent clinic building.
+  const clinicCoords: [number, number] = [59.363250859866, 28.193329261393];
   const mapCenter = clinicCoords;
 
   const buildDirectionsUrl = (mode: TravelMode, origin?: GeolocationCoordinates) => {
