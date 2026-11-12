@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // GA4 measurement ID of the Vitadent web stream (EgaDent analytics account).
 // Leave empty to disable analytics entirely.
-const GA_MEASUREMENT_ID = "";
+const GA_MEASUREMENT_ID = "G-TGD9Q2SQJC";
 
 const CONSENT_STORAGE_KEY = "vitadent-analytics-consent";
 
@@ -72,6 +72,8 @@ export default function CookieConsent() {
     // Pages set <html lang> when the visitor switches language.
     const observer = new MutationObserver(() => setLanguage(readLanguage()));
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+    // Page effects run before this one and may already have set the language.
+    setLanguage(readLanguage());
     return () => observer.disconnect();
   }, []);
 
