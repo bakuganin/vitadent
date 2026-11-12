@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { shopNavLabel, shopUrl } from "../components/ShopPromo";
+import { shopNavLabel, shopUrl } from "../shopLinks";
 import { Activity, ChevronLeft, ChevronRight, Cross, Droplets, MapPin, Phone, ScanLine, ShieldPlus, Sparkles, Syringe, type LucideIcon } from "lucide-react";
 
 type Language = "et" | "ru" | "fi" | "en";

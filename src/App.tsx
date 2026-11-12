@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import { ChevronLeft, ChevronRight, Mail, MapPin, Menu, Phone, X } from "lucide-react";
 
 import { ServiceCard } from "./types";
-import ShopPromo, { shopNavLabel, shopUrl } from "./components/ShopPromo";
+import { shopNavLabel, shopUrl } from "./shopLinks";
 
 const BookingForm = lazy(() => import("./components/BookingForm"));
 const RouteGuide = lazy(() => import("./components/RouteGuide"));
@@ -919,9 +919,6 @@ export default function App() {
       )}
 
       <div className="content-shell">
-        <section id="shop" className="shop-section" aria-labelledby="shop-title">
-          <ShopPromo language={language} />
-        </section>
 
         <section ref={contactRef} id="contact" className="contact-section">
           <div className="contact-grid">
@@ -1009,7 +1006,6 @@ export default function App() {
               <a href="/privacy-policy">{t.footer.privacy}</a>
               <a href="/terms-of-service">{t.footer.terms}</a>
               <a href="/cookie-policy">{t.footer.cookie}</a>
-              <a href={shopUrl("footer")} target="_blank" rel="noopener">shop.vitadent.ee</a>
             </div>
           </div>
         </footer>
