@@ -986,7 +986,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id="shop" className="shop-section">
+        <section id="shop" className="shop-section" aria-labelledby="shop-title">
           <ShopPromo language={language} />
         </section>
 

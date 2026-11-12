@@ -1,46 +1,76 @@
-import { ArrowUpRight, ShoppingBag } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 type Language = "et" | "ru" | "fi" | "en";
 
 // UTM tags let the OralBless analytics stream attribute visits to the clinic site.
-export function shopUrl(placement: "header" | "menu" | "section" | "footer") {
-  return `https://shop.vitadent.ee/?utm_source=vitadent.ee&utm_medium=referral&utm_campaign=clinic_site&utm_content=${placement}`;
+// The shop uses hash routing, so a product path goes after the query string.
+export function shopUrl(placement: string, productSlug?: string) {
+  const query = `utm_source=vitadent.ee&utm_medium=referral&utm_campaign=clinic_site&utm_content=${placement}`;
+  return `https://shop.vitadent.ee/?${query}${productSlug ? `#/product/${productSlug}` : ""}`;
 }
 
 export const shopNavLabel: Record<Language, string> = { et: "E-pood", ru: "Магазин", fi: "Verkkokauppa", en: "Shop" };
 
-const copy: Record<Language, { eyebrow: string; title: string; titleStrong: string; text: string; categories: string[]; cta: string }> = {
+const copy: Record<Language, Record<
+  | "eyebrow" | "title1" | "titleStrong" | "copy" | "cta" | "viewCta"
+  | "dentureTitle" | "dentureSub" | "orthoTitle" | "orthoSub" | "pasteTitle" | "pasteSub",
+  string
+>> = {
   et: {
-    eyebrow: "OralBless by Vitadent",
-    title: "Meie",
-    titleStrong: "e-pood",
-    text: "Hambaarstide valitud suuhooldustooted koju tellimiseks: kõik, mida vajad igapäevaseks hoolduseks pärast vastuvõttu.",
-    categories: ["Elektrilised hambaharjad", "Suuduššid", "Hambaniit", "Hambapastad", "Suuveed", "Tarvikud"],
-    cta: "Ava e-pood",
+    eyebrow: "OralBless e-pood",
+    title1: "Suuhooldus",
+    titleStrong: "koju",
+    copy: "Proteeside ja breketite hooldusvahendid, hambaniidid ja valgendav hambapasta VITADENT OÜ e-poest.",
+    cta: "Kogu e-pood",
+    viewCta: "Vaata",
+    dentureTitle: "Proteeside hooldus",
+    dentureSub: "Puhastuskomplekt, harjad ja karbid",
+    orthoTitle: "Breketid ja kapid",
+    orthoSub: "IsoDent puhastuskomplekt",
+    pasteTitle: "Valgendav hambapasta",
+    pasteSub: "Opalescence fluoriidiga, 100 ml",
   },
   ru: {
-    eyebrow: "OralBless by Vitadent",
-    title: "Наш",
-    titleStrong: "магазин",
-    text: "Средства для ухода за полостью рта, которые подбирают наши стоматологи, с доставкой домой: всё для ежедневного ухода после приёма.",
-    categories: ["Электрические щётки", "Ирригаторы", "Зубные нити", "Зубные пасты", "Ополаскиватели", "Аксессуары"],
-    cta: "Перейти в магазин",
+    eyebrow: "Интернет-магазин OralBless",
+    title1: "Уход за зубами",
+    titleStrong: "дома",
+    copy: "Средства ухода за протезами и брекетами, зубные нити и отбеливающая паста в интернет-магазине VITADENT OÜ.",
+    cta: "Весь магазин",
+    viewCta: "Смотреть",
+    dentureTitle: "Уход за протезами",
+    dentureSub: "Набор для очистки, щётки и футляры",
+    orthoTitle: "Брекеты и капы",
+    orthoSub: "Набор для очистки IsoDent",
+    pasteTitle: "Отбеливающая паста",
+    pasteSub: "Opalescence с фтором, 100 мл",
   },
   fi: {
-    eyebrow: "OralBless by Vitadent",
-    title: "Meidän",
-    titleStrong: "verkkokauppa",
-    text: "Hammaslääkäriemme valitsemat suunhoitotuotteet kotiin tilattuna: kaikki päivittäiseen hoitoon vastaanoton jälkeen.",
-    categories: ["Sähköhammasharjat", "Suihkuttimet", "Hammaslangat", "Hammastahnat", "Suuvedet", "Tarvikkeet"],
-    cta: "Avaa verkkokauppa",
+    eyebrow: "OralBless-verkkokauppa",
+    title1: "Suunhoito",
+    titleStrong: "kotiin",
+    copy: "Proteesien ja oikomiskojeiden hoitotuotteet, hammaslangat ja valkaiseva hammastahna VITADENT OÜ:n verkkokaupasta.",
+    cta: "Koko kauppa",
+    viewCta: "Katso",
+    dentureTitle: "Proteesien hoito",
+    dentureSub: "Puhdistussarja, harjat ja rasiat",
+    orthoTitle: "Oikomiskojeet",
+    orthoSub: "IsoDent-puhdistussarja",
+    pasteTitle: "Valkaiseva hammastahna",
+    pasteSub: "Opalescence fluorilla, 100 ml",
   },
   en: {
-    eyebrow: "OralBless by Vitadent",
-    title: "Our",
-    titleStrong: "online shop",
-    text: "Oral care products chosen by our dentists, delivered to your home: everything for daily care after your visit.",
-    categories: ["Electric toothbrushes", "Water flossers", "Dental floss", "Toothpaste", "Mouthwash", "Accessories"],
-    cta: "Visit the shop",
+    eyebrow: "OralBless online store",
+    title1: "Oral care",
+    titleStrong: "at home",
+    copy: "Denture and braces care, dental floss and whitening toothpaste from the VITADENT OÜ online store.",
+    cta: "All products",
+    viewCta: "View",
+    dentureTitle: "Denture care",
+    dentureSub: "Cleaning kit, brushes and cases",
+    orthoTitle: "Braces and aligners",
+    orthoSub: "IsoDent cleaning kit",
+    pasteTitle: "Whitening toothpaste",
+    pasteSub: "Opalescence with fluoride, 100 ml",
   },
 };
 
@@ -48,27 +78,47 @@ export default function ShopPromo({ language }: { language: Language }) {
   const t = copy[language];
 
   return (
-    <div className="shop-promo">
-      <div className="shop-promo-copy">
+    <>
+      <div className="shop-copy">
         <span className="section-eyebrow">{t.eyebrow}</span>
-        <h3>
-          {t.title}
+        <h3 id="shop-title">
+          {t.title1}
           <strong>{t.titleStrong}</strong>
         </h3>
-        <p>{t.text}</p>
+        <div className="shop-copy-side">
+          <p>{t.copy}</p>
+          <a className="shop-all-link" href={shopUrl("section")} target="_blank" rel="noopener">
+            {t.cta}
+            <ArrowUpRight aria-hidden="true" />
+          </a>
+        </div>
       </div>
 
-      <div className="shop-promo-panel">
-        <ShoppingBag aria-hidden="true" />
-        <ul>
-          {t.categories.map((category) => <li key={category}>{category}</li>)}
-        </ul>
-        <a href={shopUrl("section")} target="_blank" rel="noopener">
-          {t.cta}
-          <ArrowUpRight aria-hidden="true" />
-        </a>
-        <span className="shop-promo-domain">shop.vitadent.ee</span>
+      <div className="shop-banners">
+        {([
+          ["is-denture", "isodent-denture-cleaning-kit", "/shop/denture-care.webp", t.dentureTitle, t.dentureSub],
+          ["is-ortho", "isodent-ortho-cleaning-kit", "/shop/ortho-cleaner.webp", t.orthoTitle, t.orthoSub],
+          ["is-paste", "opalescence-whitening-toothpaste-cool-mint", "/shop/opalescence-toothpaste.webp", t.pasteTitle, t.pasteSub],
+        ] as const).map(([variant, product, image, title, subtitle]) => (
+          <a
+            key={variant}
+            className={`shop-banner ${variant}`}
+            href={shopUrl(`banner_${variant.slice(3)}`, product)}
+            target="_blank"
+            rel="noopener"
+          >
+            <img className="shop-banner-product" src={image} alt="" loading="lazy" aria-hidden="true" />
+            <span className="shop-banner-text">
+              <strong>{title}</strong>
+              <span>{subtitle}</span>
+            </span>
+            <span className="shop-banner-cta">
+              {t.viewCta}
+              <ArrowRight aria-hidden="true" />
+            </span>
+          </a>
+        ))}
       </div>
-    </div>
+    </>
   );
 }
