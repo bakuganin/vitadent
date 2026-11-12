@@ -3872,3 +3872,73 @@ button {
     min-width: 0;
   }
 }
+
+/* Soften OpenStreetMap tiles to match the light site palette */
+.route-map-tiles {
+  filter: grayscale(0.85) brightness(1.04) contrast(0.92);
+}
+
+.leaflet-control-attribution {
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* Analytics cookie consent */
+.cookie-consent {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1000;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  border: 1px solid rgba(32, 33, 36, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 18px 50px rgba(32, 33, 36, 0.14);
+  color: #202124;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.cookie-consent p {
+  flex: 1 1 280px;
+  margin: 0;
+}
+
+.cookie-consent a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.cookie-consent-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.cookie-consent-actions button {
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1px solid rgba(32, 33, 36, 0.16);
+  border-radius: 999px;
+  background: transparent;
+  color: #202124;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.cookie-consent-actions button.is-primary {
+  border-color: #202124;
+  background: #202124;
+  color: #fff;
+}

@@ -7,6 +7,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy.tsx';
 import TermsOfService from './pages/TermsOfService.tsx';
 import CookiePolicy from './pages/CookiePolicy.tsx';
 import PriceList from './pages/PriceList.tsx';
+import CookieConsent from './components/CookieConsent.tsx';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/cookie-policy" element={<CookiePolicy />} />
         <Route path="/hinnakiri" element={<PriceList />} />
       </Routes>
+      <CookieConsent />
     </BrowserRouter>
   </StrictMode>,
 );

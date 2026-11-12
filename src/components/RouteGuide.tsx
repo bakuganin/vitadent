@@ -381,11 +381,14 @@ export default function RouteGuide({ language }: { language: Language }) {
           scrollWheelZoom={false} 
           className="w-full h-full z-0"
           zoomControl={true}
-          attributionControl={false}
+          attributionControl={true}
         >
-          {/* Aesthetic light map tiles */}
+          {/* OpenStreetMap tiles: CARTO basemaps now require an API key */}
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a>'
+            maxZoom={19}
+            className="route-map-tiles"
           />
           
           <MapViewUpdater center={mapCenter} />
