@@ -919,6 +919,10 @@ export default function App() {
       )}
 
       <div className="content-shell">
+        <section id="shop" className="shop-section" aria-labelledby="shop-title">
+          <ShopPromo language={language} />
+        </section>
+
         <section ref={contactRef} id="contact" className="contact-section">
           <div className="contact-grid">
             <div className="contact-details">
@@ -984,10 +988,6 @@ export default function App() {
               <a href="tel:+37258508890">{t.call}</a>
             </div>
           </div>
-        </section>
-
-        <section id="shop" className="shop-section" aria-labelledby="shop-title">
-          <ShopPromo language={language} />
         </section>
 
         <section className="route-section">
