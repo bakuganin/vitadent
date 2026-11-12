@@ -1,7 +1,7 @@
 import { Fragment, lazy, Suspense, useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
-import { ChevronLeft, ChevronRight, Mail, MapPin, Menu, Phone, X } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, Mail, MapPin, Menu, Phone, X } from "lucide-react";
 
 import { ServiceCard } from "./types";
 import { shopNavLabel, shopUrl } from "./shopLinks";
@@ -729,7 +729,10 @@ export default function App() {
               </button>
             </>
           )}
-          <a href={shopUrl("header")} target="_blank" rel="noopener">{shopNavLabel[language]}</a>
+          <a className="nav-shop-link" href={shopUrl("header")} target="_blank" rel="noopener">
+            {shopNavLabel[language]}
+            <ArrowUpRight aria-hidden="true" />
+          </a>
           <button onClick={scrollToContact}>{t.nav.contacts}</button>
         </nav>
 
@@ -778,7 +781,10 @@ export default function App() {
               <button onClick={() => { scrollToHeroNotice(); setMobileMenuOpen(false); }}>{t.nav.results}</button>
             </>
           )}
-          <a href={shopUrl("menu")} target="_blank" rel="noopener" onClick={() => setMobileMenuOpen(false)}>{shopNavLabel[language]}</a>
+          <a className="nav-shop-link" href={shopUrl("menu")} target="_blank" rel="noopener" onClick={() => setMobileMenuOpen(false)}>
+            {shopNavLabel[language]}
+            <ArrowUpRight aria-hidden="true" />
+          </a>
           <button onClick={() => { scrollToContact(); setMobileMenuOpen(false); }}>{t.nav.contacts}</button>
           <a className="mobile-menu-call" href="tel:+37258508890"><Phone aria-hidden="true" />{t.call}</a>
         </nav>

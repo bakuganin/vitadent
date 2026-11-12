@@ -3942,3 +3942,16 @@ button {
   background: #202124;
   color: #fff;
 }
+
+/* External shop link in the menus */
+.nav-shop-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-shop-link svg {
+  width: 1.15em;
+  height: 1.15em;
+  flex-shrink: 0;
+}
