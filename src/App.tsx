@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { ChevronLeft, ChevronRight, Mail, MapPin, Menu, Phone, X } from "lucide-react";
 
 import { ServiceCard } from "./types";
+import ShopPromo, { shopNavLabel, shopUrl } from "./components/ShopPromo";
 
 const BookingForm = lazy(() => import("./components/BookingForm"));
 const RouteGuide = lazy(() => import("./components/RouteGuide"));
@@ -728,6 +729,7 @@ export default function App() {
               </button>
             </>
           )}
+          <a href={shopUrl("header")} target="_blank" rel="noopener">{shopNavLabel[language]}</a>
           <button onClick={scrollToContact}>{t.nav.contacts}</button>
         </nav>
 
@@ -776,6 +778,7 @@ export default function App() {
               <button onClick={() => { scrollToHeroNotice(); setMobileMenuOpen(false); }}>{t.nav.results}</button>
             </>
           )}
+          <a href={shopUrl("menu")} target="_blank" rel="noopener" onClick={() => setMobileMenuOpen(false)}>{shopNavLabel[language]}</a>
           <button onClick={() => { scrollToContact(); setMobileMenuOpen(false); }}>{t.nav.contacts}</button>
           <a className="mobile-menu-call" href="tel:+37258508890"><Phone aria-hidden="true" />{t.call}</a>
         </nav>
@@ -983,6 +986,10 @@ export default function App() {
           </div>
         </section>
 
+        <section id="shop" className="shop-section">
+          <ShopPromo language={language} />
+        </section>
+
         <section className="route-section">
           <Suspense fallback={<div className="route-loading-surface" aria-hidden="true" />}>
             <RouteGuide language={language} />
@@ -1002,6 +1009,7 @@ export default function App() {
               <a href="/privacy-policy">{t.footer.privacy}</a>
               <a href="/terms-of-service">{t.footer.terms}</a>
               <a href="/cookie-policy">{t.footer.cookie}</a>
+              <a href={shopUrl("footer")} target="_blank" rel="noopener">shop.vitadent.ee</a>
             </div>
           </div>
         </footer>

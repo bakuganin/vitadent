@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { shopNavLabel, shopUrl } from "../components/ShopPromo";
 import { Activity, ChevronLeft, ChevronRight, Cross, Droplets, MapPin, Phone, ScanLine, ShieldPlus, Sparkles, Syringe, type LucideIcon } from "lucide-react";
 
 type Language = "et" | "ru" | "fi" | "en";
@@ -104,7 +105,7 @@ export default function PriceList() {
 
   return <main className="price-page-shell"><header className="price-site-header">
     <a className="price-brand" href="/"><img src="/vitadent-logo.png" alt="Vitadent Hambakliinik" /></a>
-    <nav className="price-site-nav" aria-label={t.title}><a href="/">{language === "ru" ? "Главная" : language === "et" ? "Avaleht" : language === "fi" ? "Etusivu" : "Home"}</a><a href="/#contact">{language === "ru" ? "Контакты" : language === "et" ? "Kontakt" : language === "fi" ? "Yhteystiedot" : "Contacts"}</a></nav>
+    <nav className="price-site-nav" aria-label={t.title}><a href="/">{language === "ru" ? "Главная" : language === "et" ? "Avaleht" : language === "fi" ? "Etusivu" : "Home"}</a><a href={shopUrl("header")} target="_blank" rel="noopener">{shopNavLabel[language]}</a><a href="/#contact">{language === "ru" ? "Контакты" : language === "et" ? "Kontakt" : language === "fi" ? "Yhteystiedot" : "Contacts"}</a></nav>
     <div className="price-header-actions"><span><MapPin aria-hidden="true" />Narva, Haigla tn 6</span><div className="price-language-switch" aria-label={t.language}>{(["et", "ru", "fi", "en"] as const).map((code) => <button key={code} type="button" className={language === code ? "is-active" : ""} onClick={() => setLanguage(code)} aria-pressed={language === code}>{code.toUpperCase()}</button>)}</div><a href="tel:+37258508890"><Phone aria-hidden="true" />{language === "ru" ? "Позвонить" : language === "et" ? "Helista" : language === "fi" ? "Soita" : "Call"}</a></div>
   </header><div className="price-page-inner">
     <header className="price-hero"><span>Vitadent</span><h1>{t.title}</h1><p>{t.lead}</p></header>
