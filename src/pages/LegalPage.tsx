@@ -191,6 +191,7 @@ export default function LegalPage({ documents }: LegalPageProps) {
             <a href="/cookie-policy">{t.cookie}</a>
           </div>
         </footer>
+        <p className="site-credit">Code&amp;Design by <a href="https://tarkva.ee" target="_blank" rel="noopener">Tarkva.ee</a></p>
       </div>
     </main>
   );
